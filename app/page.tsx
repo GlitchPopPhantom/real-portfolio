@@ -9,7 +9,7 @@ export default function Home() {
             Adenipekun Adetunji
           </h1>
           <h2 className="mt-3 text-lg font-medium tracking-tight sm:text-xl">
-            Backend Engineer | Systems & Architecture
+            Fullstack Engineer | Systems & Architecture
           </h2>
           <p className="mt-4 max-w-xs leading-normal text-[#00FF41]/70">
             Architecting scalable, high-concurrency web applications with React & Django.
