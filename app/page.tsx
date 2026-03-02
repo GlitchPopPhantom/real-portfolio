@@ -38,7 +38,7 @@ export default function Home() {
           
           <div className="group mb-12 transition-all">
             <div className="flex flex-col sm:flex-row justify-between mb-2">
-              <h4 className="font-medium text-white">Frontend Engineering Intern — Nigerian Breweries PLC</h4>
+              <h4 className="font-medium text-white">Backend Engineering Intern — Nigerian Breweries PLC</h4>
               <span className="text-xs uppercase opacity-50">Mar — Sep 2024</span>
             </div>
             <p className="text-sm leading-normal opacity-80">
