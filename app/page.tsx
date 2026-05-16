@@ -59,6 +59,9 @@ export default function Home() {
 
         {/* PROJECTS */}
         <section id="projects" className="mb-24">
+          <a href="https://github.com/GlitchPopPhantom/Qboid"
+             target="_blank"
+             class="project-link">
           <h3 className="uppercase tracking-widest text-sm font-bold mb-8">Selected Projects</h3>
           
           <div className="mb-12">
@@ -72,6 +75,7 @@ export default function Home() {
               ))}
             </div>
           </div>
+          <a/>
 
           <div className="mb-12">
             <h4 className="text-white mb-2">Advanced App Development (Capstone)</h4>
