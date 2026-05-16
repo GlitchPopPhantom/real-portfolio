@@ -64,7 +64,7 @@ export default function Home() {
           <div className="mb-12">
             <h4 className="text-white mb-2">Game Architecture & Interactive Systems</h4>
             <p className="text-sm opacity-80 mb-4">
-              Developed multiple game engines exploring Shader Math and WebGL. Built complex state management systems to handle real-time UI updates in high-latency environments.
+              Developed a game engine exploring Shader Math and WebGL. Built complex state management systems to handle real-time UI updates in high-latency environments.
             </p>
             <div className="flex flex-wrap gap-2">
               {['WebGL', 'Shader Math', 'C++', 'JavaScript'].map(skill => (
