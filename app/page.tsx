@@ -14,58 +14,101 @@ type Experience = {
 };
 
 export default function Home() {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [loadingText, setLoadingText] =
-  useState<string>("");
+  const [loading, setLoading] = useState(true);
+  const [loadingText, setLoadingText] = useState("");
   const [activeSection, setActiveSection] =
-    useState<string>("experience");
+    useState("experience");
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2200);
-
-    return () => clearTimeout(timer);
-  }, []);
+  /* Typed loading animation */
 
   useEffect(() => {
     const fullText = "Loading...";
     let index = 0;
-  
-    const typing = setInterval(() => {
-      if (index < fullText.length) {
-        setLoadingText(
-          fullText.slice(
-            0,
-            index + 1
-          )
+
+    const typingInterval =
+      setInterval(() => {
+        if (index < fullText.length) {
+          setLoadingText(
+            fullText.slice(
+              0,
+              index + 1
+            )
+          );
+
+          index++;
+        }
+      }, 120);
+
+    const finishTimeout =
+      setTimeout(() => {
+        clearInterval(
+          typingInterval
         );
-  
-        index++;
-      }
-    }, 120);
-  
-    const finish = setTimeout(() => {
-      clearInterval(typing);
-      setLoading(false);
-    }, 2200);
-  
+
+        setLoading(false);
+      }, 2200);
+
     return () => {
-      clearInterval(typing);
-      clearTimeout(finish);
+      clearInterval(
+        typingInterval
+      );
+
+      clearTimeout(
+        finishTimeout
+      );
     };
   }, []);
 
-    sections.forEach((section) =>
-      observer.observe(section)
+
+  /* active nav tracking */
+
+  useEffect(() => {
+    if (loading) return;
+
+    const sections =
+      document.querySelectorAll(
+        "section"
+      );
+
+    const observer =
+      new IntersectionObserver(
+        (entries) => {
+          entries.forEach(
+            (entry) => {
+              if (
+                entry.isIntersecting
+              ) {
+                setActiveSection(
+                  entry.target.id
+                );
+              }
+            }
+          );
+        },
+        {
+          threshold: 0.35
+        }
+      );
+
+    sections.forEach(
+      (section) =>
+        observer.observe(
+          section
+        )
     );
 
     return () => {
-      sections.forEach((section) =>
-        observer.unobserve(section)
+      sections.forEach(
+        (section) =>
+          observer.unobserve(
+            section
+          )
       );
     };
   }, [loading]);
+
+
+  /* cursor glow effect */
 
   const handleMouseMove = (
     e: React.MouseEvent<
@@ -77,90 +120,104 @@ export default function Home() {
 
     e.currentTarget.style.setProperty(
       "--x",
-      `${e.clientX - rect.left}px`
+      `${
+        e.clientX -
+        rect.left
+      }px`
     );
 
     e.currentTarget.style.setProperty(
       "--y",
-      `${e.clientY - rect.top}px`
+      `${
+        e.clientY -
+        rect.top
+      }px`
     );
   };
 
-  const experience: Experience[] = [
-    {
-      role: "Backend Engineering Intern",
-      company: "Nigerian Breweries PLC",
-      date: "Mar — Sep 2024",
-      desc:
-        "Revitalized internal logistics dashboards using React and TypeScript. Reduced heavy visualization page load latency by 35%."
-    },
 
-    {
-      role:
-        "Software Engineering Intern",
+  const experience: Experience[] =
+    [
+      {
+        role:
+          "Backend Engineering Intern",
 
-      company:
-        "Lagos State Ministry of Science and Technology",
+        company:
+          "Nigerian Breweries PLC",
 
-      date:
-        "July — Sep 2023",
+        date:
+          "Mar — Sep 2024",
 
-      desc:
-        "Built citizen-facing platforms using modular systems and modern frontend architecture."
-    }
-  ];
+        desc:
+          "Revitalized internal logistics dashboards using React and TypeScript. Reduced page load times by 35%."
+      },
+
+      {
+        role:
+          "Software Engineering Intern",
+
+        company:
+          "Lagos State Ministry of Science and Technology",
+
+        date:
+          "July — Sep 2023",
+
+        desc:
+          "Built citizen-facing web systems using modular frontend architecture."
+      }
+    ];
+
 
   const skills = [
     "React",
     "Next.js",
     "TypeScript",
-    "Django",
-    "Node.js",
     "Python",
     "C++",
+    "Django",
+    "Node.js",
     "Tailwind",
-    "WebSockets",
-    "Raylib"
+    "Raylib",
+    "WebSockets"
   ];
 
-if (loading) {
-  return (
-    <div className="h-screen bg-black flex items-center justify-center font-mono">
 
-      <div className="text-[#00FF41] text-2xl flex items-center">
+  if (loading) {
+    return (
+      <div className="h-screen bg-black flex items-center justify-center font-mono">
 
-        {loadingText}
+        <div className="text-[#00FF41] text-3xl flex items-center">
 
-        <span
-          className="
-          inline-block
-          ml-[2px]
-          animate-pulse
-          font-light
+          {loadingText}
+
+          <span
+            className="
+            ml-[2px]
+            animate-pulse
+            inline-block
           "
-        >
-          |
-        </span>
+          >
+            |
+          </span>
+
+        </div>
 
       </div>
+    );
+  }
 
-    </div>
-  );
-}
 
   return (
     <>
+      {/* scanlines */}
+
       <div
         className="
         pointer-events-none
         fixed
         inset-0
         opacity-[0.03]
-        bg-[linear-gradient(
-        to_bottom,
-        transparent_50%,
-        rgba(0,255,65,0.15)_51%
-        )]
+        bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,255,65,0.15)_51%)]
         bg-[length:100%_4px]
       "
       />
@@ -169,23 +226,23 @@ if (loading) {
 
         <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-24 flex flex-col lg:flex-row">
 
-          {/* LEFT */}
+          {/* left */}
 
           <header
             className="
             lg:w-[40%]
+            lg:h-screen
             lg:sticky
             lg:top-0
-            lg:h-screen
-            lg:flex
-            lg:flex-col
-            lg:justify-between
             py-24
+            flex
+            flex-col
+            justify-between
           "
           >
             <div>
 
-              <h1 className="text-white text-5xl font-bold tracking-tight">
+              <h1 className="text-white text-5xl font-bold">
 
                 Adenipekun Adetunji
 
@@ -198,25 +255,28 @@ if (loading) {
 
               </h2>
 
-              <p className="mt-6 max-w-xs text-[#00FF41]/60 leading-relaxed">
+              <p className="mt-6 max-w-xs text-[#00FF41]/60">
 
                 Architecting scalable
-                high-concurrency applications
-                using React and Django.
+                high-concurrency web
+                systems with React
+                and Django.
 
               </p>
 
 
               <nav className="hidden lg:block mt-16">
 
-                <ul className="space-y-4 uppercase tracking-[0.25em] text-xs">
+                <ul className="space-y-4 text-xs uppercase tracking-[0.3em]">
 
                   {[
                     "experience",
                     "projects",
                     "skills"
                   ].map(
-                    (section) => (
+                    (
+                      section
+                    ) => (
                       <li
                         key={
                           section
@@ -224,16 +284,12 @@ if (loading) {
                       >
                         <a
                           href={`#${section}`}
-                          className={`
-                          transition-all
-                          duration-300
-                          ${
+                          className={`transition-all duration-300 ${
                             activeSection ===
                             section
                               ? "text-white"
                               : "opacity-50 hover:opacity-100"
-                          }
-                        `}
+                          }`}
                         >
                           —— {section}
                         </a>
@@ -247,18 +303,22 @@ if (loading) {
 
             </div>
 
+
             <div className="text-xs opacity-50 space-y-1">
 
               <p>
-                [ STATUS ] ONLINE
+                [ STATUS ]
+                ONLINE
               </p>
 
               <p>
-                [ REGION ] LAGOS-NG
+                [ REGION ]
+                LAGOS-NG
               </p>
 
               <p>
-                [ BUILD ] 2026.05
+                [ BUILD ]
+                2026.05
               </p>
 
             </div>
@@ -266,33 +326,29 @@ if (loading) {
           </header>
 
 
-          {/* RIGHT */}
+          {/* right */}
 
-          <main
-            className="
-            lg:w-[60%]
-            py-24
-            max-w-3xl
-          "
-          >
+          <main className="lg:w-[60%] py-24 max-w-3xl">
 
             <section
               id="experience"
               className="mb-28 scroll-mt-20"
             >
 
-              <h3 className="uppercase text-sm tracking-[0.3em] mb-8">
+              <h3 className="mb-8 uppercase text-sm tracking-[0.3em]">
 
                 Experience
 
               </h3>
 
-
               {experience.map(
-                (job) => (
-
+                (
+                  job
+                ) => (
                   <div
-                    key={job.role}
+                    key={
+                      job.role
+                    }
                     onMouseMove={
                       handleMouseMove
                     }
@@ -300,15 +356,7 @@ if (loading) {
                       background:
                         "radial-gradient(600px circle at var(--x) var(--y), rgba(0,255,65,.08), transparent 40%)"
                     }}
-                    className="
-                    mb-8
-                    p-6
-                    rounded-2xl
-                    border
-                    border-[#00FF41]/10
-                    hover:border-[#00FF41]/30
-                    transition-all
-                  "
+                    className="mb-8 p-6 rounded-2xl border border-[#00FF41]/10 hover:border-[#00FF41]/30 transition-all"
                   >
 
                     <div className="flex flex-col sm:flex-row justify-between">
@@ -317,21 +365,27 @@ if (loading) {
 
                         {job.role}
                         {" — "}
-                        {job.company}
+                        {
+                          job.company
+                        }
 
                       </h4>
 
-                      <span className="opacity-50 text-xs">
+                      <span className="text-xs opacity-50">
 
-                        {job.date}
+                        {
+                          job.date
+                        }
 
                       </span>
 
                     </div>
 
-                    <p className="mt-4 text-[#00FF41]/60 text-sm leading-relaxed">
+                    <p className="mt-4 text-sm text-[#00FF41]/60">
 
-                      {job.desc}
+                      {
+                        job.desc
+                      }
 
                     </p>
 
@@ -342,18 +396,16 @@ if (loading) {
             </section>
 
 
-
             <section
               id="projects"
               className="mb-28 scroll-mt-20"
             >
 
-              <h3 className="uppercase text-sm tracking-[0.3em] mb-8">
+              <h3 className="mb-8 uppercase text-sm tracking-[0.3em]">
 
-                Selected Projects
+                Projects
 
               </h3>
-
 
               <a
                 href="https://github.com/GlitchPopPhantom/Qboid"
@@ -366,37 +418,23 @@ if (loading) {
                   background:
                     "radial-gradient(600px circle at var(--x) var(--y), rgba(0,255,65,.08), transparent 40%)"
                 }}
-                className="
-                block
-                p-6
-                rounded-2xl
-                border
-                border-[#00FF41]/10
-                bg-[#00FF41]/[0.02]
-                hover:border-[#00FF41]
-                hover:scale-[1.02]
-                transition-all
-                duration-300
-              "
+                className="block p-6 rounded-2xl border border-[#00FF41]/10 bg-[#00FF41]/[0.02] hover:border-[#00FF41] hover:scale-[1.02] transition-all"
               >
 
-                <h4 className="text-xl text-white font-semibold mb-3">
+                <h4 className="text-xl text-white mb-3">
 
                   Qboid —
                   Modular Combat Engine
 
                 </h4>
 
-                <p className="text-[#00FF41]/60 mb-5 leading-relaxed">
+                <p className="mb-5 text-[#00FF41]/60">
 
-                  Built a custom C++
-                  combat engine with
-                  projectile systems,
-                  recoil physics,
-                  attack editing,
-                  live tuning tools,
-                  and modular
-                  architecture.
+                  Built a modular
+                  C++ combat engine
+                  with projectiles,
+                  physics systems
+                  and live tuning.
 
                 </p>
 
@@ -406,8 +444,7 @@ if (loading) {
                     "C++",
                     "Raylib",
                     "Physics",
-                    "Combat",
-                    "Game Systems"
+                    "Combat"
                   ].map(
                     (
                       skill
@@ -430,22 +467,22 @@ if (loading) {
             </section>
 
 
-
             <section
               id="skills"
-              className="scroll-mt-20"
             >
 
-              <h3 className="uppercase text-sm tracking-[0.3em] mb-8">
+              <h3 className="mb-8 uppercase text-sm tracking-[0.3em]">
 
-                Technical Skills
+                Skills
 
               </h3>
 
               <div className="flex flex-wrap gap-3">
 
                 {skills.map(
-                  (skill) => (
+                  (
+                    skill
+                  ) => (
                     <SkillChip
                       key={
                         skill
@@ -470,22 +507,15 @@ if (loading) {
   );
 }
 
+
 function SkillChip({
   text
 }: SkillChipProps) {
   return (
-    <span
-      className="
-      px-3
-      py-1
-      rounded-full
-      text-xs
-      border
-      border-[#00FF41]/20
-      bg-[#00FF41]/5
-    "
-    >
+    <span className="px-3 py-1 rounded-full text-xs border border-[#00FF41]/20 bg-[#00FF41]/5">
+
       {text}
+
     </span>
   );
 }
