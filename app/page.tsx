@@ -1,243 +1,361 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+  const [activeSection, setActiveSection] = useState("experience");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2200);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (loading) return;
+
+    const sections = document.querySelectorAll("section");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        threshold: 0.4,
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, [loading]);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    e.currentTarget.style.setProperty(
+      "--x",
+      `${e.clientX - rect.left}px`
+    );
+
+    e.currentTarget.style.setProperty(
+      "--y",
+      `${e.clientY - rect.top}px`
+    );
+  };
+
+  if (loading) {
+    return (
+      <div className="h-screen bg-black flex items-center justify-center font-mono text-[#00FF41]">
+
+        <div className="text-2xl flex items-center">
+
+          Loading...
+
+          <span className="ml-1 animate-pulse">
+            _
+          </span>
+
+        </div>
+
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-24 flex flex-col lg:flex-row min-h-screen bg-black font-mono text-[#00FF41]">
+    <>
+      <div
+        className="
+        pointer-events-none
+        fixed
+        inset-0
+        opacity-[0.03]
+        bg-[linear-gradient(
+        to_bottom,
+        transparent_50%,
+        rgba(0,255,65,0.15)_51%
+        )]
+        bg-[length:100%_4px]
+        "
+      />
 
-      {/* LEFT SECTION */}
-      <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[40%] lg:flex-col lg:justify-between lg:py-24">
+      <div className="max-w-screen-xl mx-auto px-6 md:px-12 lg:px-24 flex flex-col lg:flex-row min-h-screen bg-black font-mono text-[#00FF41] scroll-smooth">
 
-        <div>
-          <h1 className="text-white text-4xl font-bold tracking-tight sm:text-5xl">
-            Adenipekun Adetunji
-          </h1>
+        {/* LEFT */}
 
-          <h2 className="mt-3 text-lg font-medium tracking-tight sm:text-xl">
-            Fullstack Engineer | Systems & Architecture
-          </h2>
+        <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[40%] lg:flex-col lg:justify-between lg:py-24">
 
-          <p className="mt-4 max-w-xs leading-normal text-[#00FF41]/70">
-            Architecting scalable, high-concurrency web applications with React & Django.
-          </p>
+          <div>
 
-          <nav className="hidden lg:block mt-16">
-            <ul className="w-max uppercase tracking-widest text-xs font-bold">
-              <li className="py-3 cursor-pointer hover:text-white">
-                —— Experience
-              </li>
+            <h1 className="text-[#d7ffd9] text-4xl font-bold tracking-tight sm:text-5xl">
+              Adenipekun Adetunji
+            </h1>
 
-              <li className="py-3 cursor-pointer hover:text-white opacity-50">
-                —— Projects
-              </li>
+            <h2 className="mt-3 text-lg sm:text-xl">
+              Fullstack Engineer | Systems & Architecture
+            </h2>
 
-              <li className="py-3 cursor-pointer opacity-50">
-                —— Skills
-              </li>
-            </ul>
-          </nav>
-        </div>
-
-        <div className="mt-8 flex items-center opacity-50 text-xs">
-          System Status: Online | Buffer: 0x88234
-        </div>
-
-      </header>
-
-      {/* RIGHT SECTION */}
-      <main className="lg:w-[60%] lg:py-24">
-
-        {/* EXPERIENCE */}
-        <section id="experience" className="mb-24 scroll-mt-16">
-
-          <h3 className="uppercase tracking-widest text-sm font-bold mb-8 lg:hidden">
-            Experience
-          </h3>
-
-          <div className="group mb-12 transition-all">
-            <div className="flex flex-col sm:flex-row justify-between mb-2">
-
-              <h4 className="font-medium text-white">
-                Backend Engineering Intern — Nigerian Breweries PLC
-              </h4>
-
-              <span className="text-xs uppercase opacity-50">
-                Mar — Sep 2024
-              </span>
-
-            </div>
-
-            <p className="text-sm leading-normal opacity-80">
-              Spearheaded the revitalization of internal logistics dashboards,
-              replacing legacy interfaces with high-performance
-              React/TypeScript modules. Optimized data-heavy visualizations
-              reducing page load latency by 35%.
+            <p className="mt-4 max-w-xs leading-relaxed text-[#00FF41]/55">
+              Architecting scalable high-concurrency web
+              applications with React and Django.
             </p>
+
+            <nav className="hidden lg:block mt-16">
+
+              <ul className="space-y-3 uppercase text-xs tracking-[0.3em]">
+
+                {[
+                  "experience",
+                  "projects",
+                  "skills"
+                ].map((section)=>(
+                  <li key={section}>
+                    <a
+                      href={`#${section}`}
+                      className={`
+                      transition-all
+                      duration-300
+                      ${
+                        activeSection===section
+                        ? "text-white"
+                        : "opacity-50 hover:opacity-100"
+                      }
+                      `}
+                    >
+                      —— {section}
+                    </a>
+                  </li>
+                ))}
+
+              </ul>
+
+            </nav>
 
           </div>
 
+          <div className="mt-8 text-xs opacity-50 space-y-1">
 
-          <div className="group mb-12 transition-all">
-
-            <div className="flex flex-col sm:flex-row justify-between mb-2">
-
-              <h4 className="font-medium text-white">
-                Software Engineering Intern — Lagos State Ministry of Science and Technology
-              </h4>
-
-              <span className="text-xs uppercase opacity-50">
-                July — Sep 2023
-              </span>
-
-            </div>
-
-            <p className="text-sm leading-normal opacity-80">
-              Engineered accessible citizen-facing web portals using modern
-              JavaScript frameworks and modular UI systems.
-            </p>
+            <p>[ STATUS ] ONLINE</p>
+            <p>[ REGION ] LAGOS-NG</p>
+            <p>[ BUILD ] 2026.05</p>
 
           </div>
 
-        </section>
+        </header>
 
 
-        {/* PROJECTS */}
-        <section id="projects" className="mb-24">
+        {/* RIGHT */}
 
-          <h3 className="uppercase tracking-widest text-sm font-bold mb-8">
-            Selected Projects
-          </h3>
+        <main className="lg:w-[60%] lg:py-24 max-w-3xl">
 
-
-          {/* QBOID PROJECT */}
-
-          <a
-            href="https://github.com/GlitchPopPhantom/Qboid"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block mb-12 rounded-lg border border-[#00FF41]/20 p-5
-            transition-all duration-300
-            hover:bg-[#00FF41]/5
-            hover:border-[#00FF41]
-            hover:scale-[1.02]
-            hover:shadow-[0_0_25px_rgba(0,255,65,0.25)]"
+          <section
+            id="experience"
+            className="mb-24 scroll-mt-20"
           >
 
-            <h4 className="text-white mb-2 text-lg">
-              Qboid — Modular Combat Engine
-            </h4>
+            <h3 className="uppercase tracking-widest text-sm font-bold mb-8 lg:hidden">
+              Experience
+            </h3>
 
-            <p className="text-sm opacity-80 mb-4 leading-relaxed">
 
-              Built a custom C++ combat engine featuring projectile systems,
-              attack editing, recoil/knockback physics, configurable combat
-              mechanics, and live gameplay tuning tools. Designed around
-              modular architecture for rapid iteration and experimentation.
+            {[
+              {
+                role:"Backend Engineering Intern",
+                company:"Nigerian Breweries PLC",
+                date:"Mar — Sep 2024",
+                desc:"Spearheaded logistics dashboard modernization with React/TypeScript. Reduced heavy visualization load times by 35%."
+              },
+              {
+                role:"Software Engineering Intern",
+                company:"Lagos State Ministry of Science and Technology",
+                date:"July — Sep 2023",
+                desc:"Built citizen-facing web platforms with modular architecture and accessibility principles."
+              }
 
-            </p>
+            ].map((job)=>(
+              <div
+                key={job.role}
+                onMouseMove={handleMouseMove}
+                style={{
+                  background:
+                    "radial-gradient(600px circle at var(--x) var(--y), rgba(0,255,65,.08), transparent 40%)"
+                }}
+                className="
+                mb-12
+                p-5
+                rounded-xl
+                border
+                border-[#00FF41]/10
+                transition-all
+                hover:border-[#00FF41]/30
+                "
+              >
 
-            <div className="flex flex-wrap gap-2">
+                <div className="flex justify-between flex-col sm:flex-row">
+
+                  <h4 className="text-white">
+
+                    {job.role}
+                    {" — "}
+                    {job.company}
+
+                  </h4>
+
+                  <span className="opacity-50 text-xs">
+                    {job.date}
+                  </span>
+
+                </div>
+
+                <p className="mt-4 text-sm text-[#00FF41]/55 leading-relaxed">
+
+                  {job.desc}
+
+                </p>
+
+              </div>
+            ))}
+
+          </section>
+
+
+
+          <section
+            id="projects"
+            className="mb-24 scroll-mt-20"
+          >
+
+            <h3 className="uppercase tracking-widest text-sm mb-8">
+              Selected Projects
+            </h3>
+
+
+            <a
+              href="https://github.com/GlitchPopPhantom/Qboid"
+              target="_blank"
+              rel="noreferrer"
+              onMouseMove={handleMouseMove}
+              style={{
+                background:
+                  "radial-gradient(600px circle at var(--x) var(--y), rgba(0,255,65,.08), transparent 40%)"
+              }}
+              className="
+              block
+              p-6
+              mb-12
+              rounded-xl
+              border
+              border-[#00FF41]/10
+              bg-[#00FF41]/[0.02]
+              hover:border-[#00FF41]
+              hover:scale-[1.02]
+              transition-all
+              "
+            >
+
+              <h4 className="text-xl font-semibold text-white mb-3">
+                Qboid — Modular Combat Engine
+              </h4>
+
+              <p className="opacity-70 leading-relaxed mb-5">
+
+                Built a custom C++ combat engine with
+                projectile systems, attack editing,
+                recoil physics, tuning tools and
+                modular architecture.
+
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+
+                {[
+                  "C++",
+                  "Raylib",
+                  "Physics",
+                  "Combat",
+                  "Game Systems"
+                ].map(skill=>(
+
+                  <SkillChip
+                    key={skill}
+                    text={skill}
+                  />
+
+                ))}
+
+              </div>
+
+            </a>
+
+          </section>
+
+
+          <section
+            id="skills"
+            className="scroll-mt-20"
+          >
+
+            <h3 className="uppercase tracking-widest text-sm mb-8">
+              Technical Skills
+            </h3>
+
+            <div className="flex flex-wrap gap-3">
 
               {[
-                'C++',
-                'Raylib',
-                'Physics',
-                'Game Systems',
-                'Combat',
-                'Projectiles'
-              ].map(skill => (
+                "React",
+                "Next.js",
+                "TypeScript",
+                "Django",
+                "Node",
+                "C++",
+                "Python",
+                "WebSockets",
+                "Raylib",
+                "Tailwind"
+              ].map(skill=>(
 
-                <span
+                <SkillChip
                   key={skill}
-                  className="px-3 py-1 text-[10px] rounded-full bg-[#00FF41]/10 border border-[#00FF41]/20"
-                >
-                  {skill}
-                </span>
+                  text={skill}
+                />
 
               ))}
 
             </div>
 
-          </a>
+          </section>
 
+        </main>
 
+      </div>
+    </>
+  );
+}
 
-          {/* SECOND PROJECT */}
+function SkillChip({text}) {
 
-          <div className="mb-12">
+  return (
 
-            <h4 className="text-white mb-2">
-              Advanced App Development (Capstone)
-            </h4>
+    <span
+      className="
+      px-3
+      py-1
+      rounded-full
+      text-xs
+      border
+      border-[#00FF41]/20
+      bg-[#00FF41]/5
+      "
+    >
+      {text}
+    </span>
 
-            <p className="text-sm opacity-80 mb-4">
-
-              Architected a full-stack mobile application with
-              offline-first synchronization and WebSocket notifications.
-
-            </p>
-
-            <div className="flex flex-wrap gap-2">
-
-              {['React','WebSockets','PWA'].map(skill => (
-
-                <span
-                  key={skill}
-                  className="px-3 py-1 text-[10px] rounded-full bg-[#00FF41]/10 border border-[#00FF41]/20"
-                >
-                  {skill}
-                </span>
-
-              ))}
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        {/* SKILLS */}
-
-        <section id="skills" className="mb-24">
-
-          <h3 className="uppercase tracking-widest text-sm font-bold mb-8">
-            Technical Skills
-          </h3>
-
-          <div className="grid grid-cols-2 gap-4 text-sm">
-
-            <div>
-
-              <p className="text-white mb-2 font-bold underline">
-                Languages
-              </p>
-
-              <ul className="opacity-70">
-                <li>TypeScript / JavaScript</li>
-                <li>Python / C++</li>
-                <li>HTML5 / CSS3</li>
-              </ul>
-
-            </div>
-
-
-            <div>
-
-              <p className="text-white mb-2 font-bold underline">
-                Frameworks
-              </p>
-
-              <ul className="opacity-70">
-                <li>React.js / Next.js</li>
-                <li>Django / Node.js</li>
-                <li>Tailwind CSS</li>
-              </ul>
-
-            </div>
-
-          </div>
-
-        </section>
-
-      </main>
-    </div>
   );
 }
