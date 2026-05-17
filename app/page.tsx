@@ -15,6 +15,8 @@ type Experience = {
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingText, setLoadingText] =
+  useState<string>("");
   const [activeSection, setActiveSection] =
     useState<string>("experience");
 
@@ -27,24 +29,32 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (loading) return;
-
-    const sections = document.querySelectorAll("section");
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(
-              entry.target.id
-            );
-          }
-        });
-      },
-      {
-        threshold: 0.35,
+    const fullText = "Loading...";
+    let index = 0;
+  
+    const typing = setInterval(() => {
+      if (index < fullText.length) {
+        setLoadingText(
+          fullText.slice(
+            0,
+            index + 1
+          )
+        );
+  
+        index++;
       }
-    );
+    }, 120);
+  
+    const finish = setTimeout(() => {
+      clearInterval(typing);
+      setLoading(false);
+    }, 2200);
+  
+    return () => {
+      clearInterval(typing);
+      clearTimeout(finish);
+    };
+  }, []);
 
     sections.forEach((section) =>
       observer.observe(section)
@@ -113,23 +123,30 @@ export default function Home() {
     "Raylib"
   ];
 
-  if (loading) {
-    return (
-      <div className="h-screen bg-black flex items-center justify-center font-mono">
+if (loading) {
+  return (
+    <div className="h-screen bg-black flex items-center justify-center font-mono">
 
-        <div className="text-[#00FF41] text-2xl flex">
+      <div className="text-[#00FF41] text-2xl flex items-center">
 
-          Loading...
+        {loadingText}
 
-          <span className="ml-1 animate-pulse">
-            _
-          </span>
-
-        </div>
+        <span
+          className="
+          inline-block
+          ml-[2px]
+          animate-pulse
+          font-light
+          "
+        >
+          |
+        </span>
 
       </div>
-    );
-  }
+
+    </div>
+  );
+}
 
   return (
     <>
