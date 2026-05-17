@@ -3,40 +3,32 @@
 import React, { useEffect, useState } from "react";
 
 export default function Home() {
-  const [loadingText, setLoadingText] =
-    useState("");
+  const [loadingText,setLoadingText]=useState("");
 
-  const [hi, setHi] =
-    useState("");
+  const [hi,setHi]=useState("");
+  const [im,setIm]=useState("");
+  const [firstName,setFirstName]=useState("");
+  const [lastName,setLastName]=useState("");
 
-  const [im, setIm] =
-    useState("");
-
-  const [firstName, setFirstName] =
-    useState("");
-
-  const [lastName, setLastName] =
-    useState("");
-
-  const [cursorVisible,setCursorVisible] =
+  const [cursorVisible,setCursorVisible]=
     useState(true);
 
-  const [highlight,setHighlight] =
+  const [highlight,setHighlight]=
     useState(false);
 
-  const [showPortfolio,setShowPortfolio] =
+  const [showButton,setShowButton]=
     useState(false);
 
-  const [showButton,setShowButton] =
+  const [showPortfolio,setShowPortfolio]=
     useState(false);
-
 
   async function sleep(ms:number){
     return new Promise(
-      resolve=>setTimeout(
-        resolve,
-        ms
-      )
+      resolve=>
+        setTimeout(
+          resolve,
+          ms
+        )
     );
   }
 
@@ -54,7 +46,10 @@ export default function Home() {
     ){
 
       setter(
-        text.slice(0,i)
+        text.slice(
+          0,
+          i
+        )
       );
 
       await sleep(90);
@@ -62,6 +57,7 @@ export default function Home() {
     }
 
   }
+
 
   async function backspace(
     text:string,
@@ -100,8 +96,6 @@ export default function Home() {
       );
 
 
-      // blink 3x
-
       for(
         let i=0;
         i<6;
@@ -122,35 +116,42 @@ export default function Home() {
         true
       );
 
-
       await backspace(
         "Loading...",
         setLoadingText
       );
 
 
-      await sleep(400);
+      await sleep(
+        400
+      );
 
       await typeText(
         "Hi",
         setHi
       );
 
-      await sleep(250);
+      await sleep(
+        250
+      );
 
       await typeText(
         "I'm",
         setIm
       );
 
-      await sleep(250);
+      await sleep(
+        250
+      );
 
       await typeText(
         "Adenipekun",
         setFirstName
       );
 
-      await sleep(250);
+      await sleep(
+        250
+      );
 
       await typeText(
         "Adetunji",
@@ -158,13 +159,18 @@ export default function Home() {
       );
 
 
-      await sleep(700);
+      await sleep(
+        1000
+      );
 
       setHighlight(
         true
       );
 
-      await sleep(800);
+
+      await sleep(
+        1200
+      );
 
       setShowButton(
         true
@@ -177,9 +183,10 @@ export default function Home() {
   },[]);
 
 
-  return(
 
-<div className="bg-black min-h-screen text-[#00FF41] font-mono overflow-hidden">
+return(
+
+<div className="bg-black text-[#00FF41] min-h-screen font-mono overflow-hidden">
 
 <div className="max-w-screen-xl mx-auto min-h-screen flex flex-col lg:flex-row px-10 lg:px-24">
 
@@ -203,23 +210,23 @@ showPortfolio
 
 <div>
 
-{/* loading */}
 
 {!hi&&(
 
-<div className="text-5xl">
-
-<span>
+<div
+className="
+text-5xl
+w-[14ch]
+whitespace-nowrap
+"
+>
 
 {loadingText}
-
-</span>
 
 <span
 className="
 inline-block
-w-[16px]
-text-left
+w-[1ch]
 "
 >
 
@@ -242,13 +249,18 @@ text-left
 <div className="text-5xl leading-relaxed">
 
 <div
-className={
+className={`
+transition-colors
+duration-[2500ms]
+
+${
 highlight
 ?
 "text-white"
 :
-""
+"text-[#00FF41]"
 }
+`}
 >
 
 {hi}
@@ -257,13 +269,18 @@ highlight
 
 
 <div
-className={
+className={`
+transition-colors
+duration-[2500ms]
+
+${
 highlight
 ?
 "text-white"
 :
-""
+"text-[#00FF41]"
 }
+`}
 >
 
 {im}
@@ -271,11 +288,13 @@ highlight
 </div>
 
 
+
 <div>
 
 {firstName}
 
 </div>
+
 
 
 <div>
@@ -289,12 +308,15 @@ highlight
 <span
 className="
 text-white
-transition-all
-duration-[1500ms]
+transition-colors
+duration-[2500ms]
 "
 >
+
 tunji
+
 </span>
+
 </>
 :
 lastName
@@ -310,11 +332,13 @@ lastName
 {showButton&&(
 
 <button
+
 onClick={()=>
 setShowPortfolio(
 true
 )
 }
+
 className="
 mt-16
 border
@@ -324,6 +348,7 @@ py-3
 hover:bg-[#00FF41]/10
 transition-all
 "
+
 >
 
 See my portfolio ↓
@@ -335,6 +360,7 @@ See my portfolio ↓
 </div>
 
 </div>
+
 
 
 <div
@@ -372,19 +398,6 @@ Software Engineering Intern
 
 </div>
 
-
-<h2 className="text-white text-3xl mt-20 mb-10">
-
-Projects
-
-</h2>
-
-<div>
-
-Qboid Combat Engine
-
-</div>
-
 </div>
 
 </div>
@@ -394,6 +407,6 @@ Qboid Combat Engine
 
 </div>
 
-  );
+);
 
 }
