@@ -117,7 +117,7 @@ export default function Home() {
       );
 
       await backspace(
-        "Loading   ...",
+        "Loading...",
         setLoadingText
       );
 
@@ -226,7 +226,7 @@ whitespace-nowrap
 <span
 className="
 inline-block
-w-[1ch]
+w-[3ch]
 "
 >
 
