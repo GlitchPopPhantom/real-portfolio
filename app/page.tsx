@@ -3,26 +3,40 @@
 import React, { useEffect, useState } from "react";
 
 export default function Home() {
-  const [line1, setLine1] = useState("");
-  const [line2, setLine2] = useState("");
-  const [line3, setLine3] = useState("");
-  const [line4, setLine4] = useState("");
+  const [loadingText, setLoadingText] =
+    useState("");
 
-  const [cursorVisible, setCursorVisible] =
+  const [hi, setHi] =
+    useState("");
+
+  const [im, setIm] =
+    useState("");
+
+  const [firstName, setFirstName] =
+    useState("");
+
+  const [lastName, setLastName] =
+    useState("");
+
+  const [cursorVisible,setCursorVisible] =
     useState(true);
 
-  const [showIntro, setShowIntro] =
+  const [highlight,setHighlight] =
     useState(false);
 
-  const [showButton, setShowButton] =
+  const [showPortfolio,setShowPortfolio] =
     useState(false);
 
-  const [showPortfolio, setShowPortfolio] =
+  const [showButton,setShowButton] =
     useState(false);
+
 
   async function sleep(ms:number){
     return new Promise(
-      r=>setTimeout(r,ms)
+      resolve=>setTimeout(
+        resolve,
+        ms
+      )
     );
   }
 
@@ -63,26 +77,30 @@ export default function Home() {
     ){
 
       setter(
-        text.slice(0,i)
+        text.slice(
+          0,
+          i
+        )
       );
 
-      await sleep(50);
+      await sleep(55);
 
     }
 
   }
 
+
   useEffect(()=>{
 
-    async function sequence(){
+    async function run(){
 
       await typeText(
         "Loading...",
-        setLine1
+        setLoadingText
       );
 
 
-      // blink exactly 3x
+      // blink 3x
 
       for(
         let i=0;
@@ -91,11 +109,11 @@ export default function Home() {
       ){
 
         setCursorVisible(
-          p=>!p
+          v=>!v
         );
 
         await sleep(
-          300
+          250
         );
 
       }
@@ -107,42 +125,43 @@ export default function Home() {
 
       await backspace(
         "Loading...",
-        setLine1
+        setLoadingText
       );
 
 
       await sleep(400);
 
-      setShowIntro(
-        true
-      );
-
-      setLine1("");
-
       await typeText(
         "Hi",
-        setLine1
+        setHi
       );
 
-      await sleep(300);
+      await sleep(250);
 
       await typeText(
         "I'm",
-        setLine2
+        setIm
       );
 
-      await sleep(300);
+      await sleep(250);
 
       await typeText(
         "Adenipekun",
-        setLine3
+        setFirstName
       );
 
-      await sleep(300);
+      await sleep(250);
 
       await typeText(
         "Adetunji",
-        setLine4
+        setLastName
+      );
+
+
+      await sleep(700);
+
+      setHighlight(
+        true
       );
 
       await sleep(800);
@@ -153,23 +172,22 @@ export default function Home() {
 
     }
 
-    sequence();
+    run();
 
   },[]);
 
 
   return(
 
-<div className="bg-black text-[#00FF41] min-h-screen font-mono overflow-hidden">
+<div className="bg-black min-h-screen text-[#00FF41] font-mono overflow-hidden">
 
-<div className="fixed inset-0 opacity-[0.03] pointer-events-none bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,255,65,.2)_51%)] bg-[length:100%_4px]" />
+<div className="max-w-screen-xl mx-auto min-h-screen flex flex-col lg:flex-row px-10 lg:px-24">
 
-<div className="max-w-screen-xl mx-auto min-h-screen flex flex-col lg:flex-row px-8 lg:px-24">
 
 <div
 className={`
 transition-all
-duration-[1500ms]
+duration-[1400ms]
 flex
 items-center
 
@@ -185,107 +203,118 @@ showPortfolio
 
 <div>
 
-<div className="text-5xl leading-relaxed">
+{/* loading */}
 
-{line1}
+{!hi&&(
 
-{!showIntro&&cursorVisible&&(
+<div className="text-5xl">
+
+<span>
+
+{loadingText}
+
+</span>
 
 <span
 className="
 inline-block
-w-[14px]
+w-[16px]
+text-left
 "
 >
 
-|
+{cursorVisible
+?
+"|"
+:
+" "}
 
 </span>
 
+</div>
+
 )}
 
-</div>
 
 
-{showIntro&&(
+{hi&&(
 
-<>
-
-<div
-className={`text-5xl mt-2 ${
-line1==="Hi"
-?
-"text-white"
-:
-""
-}`}
->
-
-{line1}
-
-</div>
+<div className="text-5xl leading-relaxed">
 
 <div
-className={`text-5xl mt-2 ${
-line2==="I'm"
-?
-"text-white"
-:
-""
-}`}
->
-
-{line2}
-
-</div>
-
-
-<div className="text-5xl mt-2">
-
-{line3}
-
-</div>
-
-
-<div className="text-5xl mt-2">
-
-{"Ade"}
-
-<span
-className={`
-transition-all
-duration-[2000ms]
-
-${
-line4==="Adetunji"
+className={
+highlight
 ?
 "text-white"
 :
 ""
 }
-`}
 >
 
-{"tunji"}
-
-</span>
+{hi}
 
 </div>
 
+
+<div
+className={
+highlight
+?
+"text-white"
+:
+""
+}
+>
+
+{im}
+
+</div>
+
+
+<div>
+
+{firstName}
+
+</div>
+
+
+<div>
+
+{
+highlight
+?
+<>
+{"Ade"}
+
+<span
+className="
+text-white
+transition-all
+duration-[1500ms]
+"
+>
+tunji
+</span>
 </>
+:
+lastName
+}
+
+</div>
+
+</div>
 
 )}
+
 
 {showButton&&(
 
 <button
-
 onClick={()=>
 setShowPortfolio(
 true
 )
 }
-
 className="
 mt-16
 border
@@ -295,7 +324,6 @@ py-3
 hover:bg-[#00FF41]/10
 transition-all
 "
-
 >
 
 See my portfolio ↓
@@ -312,8 +340,7 @@ See my portfolio ↓
 <div
 className={`
 transition-all
-duration-[1500ms]
-overflow-hidden
+duration-[1400ms]
 
 ${
 showPortfolio
@@ -354,14 +381,14 @@ Projects
 
 <div>
 
-Qboid —
-Modular Combat Engine
+Qboid Combat Engine
 
 </div>
 
 </div>
 
 </div>
+
 
 </div>
 
