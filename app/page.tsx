@@ -91,7 +91,7 @@ export default function Home() {
     async function run(){
 
       await typeText(
-        "Loading...",
+        "Loading",
         setLoadingText
       );
 
