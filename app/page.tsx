@@ -37,19 +37,23 @@ export default function Home() {
     return () => observer.disconnect();
   }, [loading]);
 
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
+  const handleMouseMove = (
+  e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement>
+) => {
 
-    e.currentTarget.style.setProperty(
-      "--x",
-      `${e.clientX - rect.left}px`
-    );
+  const rect = e.currentTarget.getBoundingClientRect();
 
-    e.currentTarget.style.setProperty(
-      "--y",
-      `${e.clientY - rect.top}px`
-    );
-  };
+  e.currentTarget.style.setProperty(
+    "--x",
+    `${e.clientX - rect.left}px`
+  );
+
+  e.currentTarget.style.setProperty(
+    "--y",
+    `${e.clientY - rect.top}px`
+  );
+
+};
 
   if (loading) {
     return (
