@@ -91,7 +91,7 @@ export default function Home() {
     async function run(){
 
       await typeText(
-        "Loading...",
+        "Loading",
         setLoadingText
       );
 
@@ -117,7 +117,7 @@ export default function Home() {
       );
 
       await backspace(
-        "Loading...",
+        "Loading",
         setLoadingText
       );
 
@@ -351,7 +351,7 @@ transition-all
 
 >
 
-See my portfolio ↓
+See my portfolio
 
 </button>
 
