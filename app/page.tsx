@@ -226,7 +226,7 @@ whitespace-nowrap
 <span
 className="
 inline-block
-w-[30ch]
+w-[300px]
 "
 >
 
