@@ -3,34 +3,37 @@
 import React, { useEffect, useState } from "react";
 
 export default function Home() {
-  const [loadingText,setLoadingText]=useState("");
+  const [loadingText, setLoadingText] = useState("");
 
-  const [hi,setHi]=useState("");
-  const [im,setIm]=useState("");
-  const [firstName,setFirstName]=useState("");
-  const [lastName,setLastName]=useState("");
+  const [hi, setHi] = useState("");
+  const [im, setIm] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
-  const [cursorVisible,setCursorVisible]=
+  const [cursorVisible, setCursorVisible] =
     useState(true);
 
-  const [highlight,setHighlight]=
+  const [highlight, setHighlight] =
     useState(false);
 
-  const [showButton,setShowButton]=
+  const [hideIntro, setHideIntro] =
     useState(false);
 
-  const [showPortfolio,setShowPortfolio]=
+  const [showButton, setShowButton] =
+    useState(false);
+
+  const [showPortfolio, setShowPortfolio] =
     useState(false);
 
   async function sleep(ms:number){
     return new Promise(
-      resolve=>
-        setTimeout(
-          resolve,
-          ms
-        )
+      resolve=>setTimeout(
+        resolve,
+        ms
+      )
     );
   }
+
 
   async function typeText(
     text:string,
@@ -91,10 +94,12 @@ export default function Home() {
     async function run(){
 
       await typeText(
-        "Loading",
+        "Loading...",
         setLoadingText
       );
 
+
+      // blink 3x
 
       for(
         let i=0;
@@ -116,15 +121,17 @@ export default function Home() {
         true
       );
 
+
       await backspace(
-        "Loading",
+        "Loading...",
         setLoadingText
       );
 
 
       await sleep(
-        400
+        300
       );
+
 
       await typeText(
         "Hi",
@@ -132,7 +139,7 @@ export default function Home() {
       );
 
       await sleep(
-        250
+        300
       );
 
       await typeText(
@@ -141,8 +148,9 @@ export default function Home() {
       );
 
       await sleep(
-        250
+        300
       );
+
 
       await typeText(
         "Adenipekun",
@@ -150,23 +158,30 @@ export default function Home() {
       );
 
       await sleep(
-        250
+        300
       );
+
 
       await typeText(
         "Adetunji",
         setLastName
       );
 
-
       await sleep(
-        1000
+        1200
       );
 
       setHighlight(
         true
       );
 
+      await sleep(
+        2500
+      );
+
+      setHideIntro(
+        true
+      );
 
       await sleep(
         1200
@@ -191,17 +206,18 @@ return(
 <div className="max-w-screen-xl mx-auto min-h-screen flex flex-col lg:flex-row px-10 lg:px-24">
 
 
+
 <div
 className={`
 transition-all
-duration-[1400ms]
+duration-[1800ms]
 flex
 items-center
 
 ${
 showPortfolio
 ?
-"lg:w-[40%] justify-start"
+"lg:w-[40%] lg:items-start pt-24"
 :
 "w-full justify-center"
 }
@@ -216,8 +232,9 @@ showPortfolio
 <div
 className="
 text-5xl
-w-[14ch]
-whitespace-nowrap
+w-[12ch]
+mx-auto
+text-center
 "
 >
 
@@ -226,7 +243,8 @@ whitespace-nowrap
 <span
 className="
 inline-block
-w-[0px]
+absolute
+ml-1
 "
 >
 
@@ -244,14 +262,30 @@ w-[0px]
 
 
 
+
 {hi&&(
 
-<div className="text-5xl leading-relaxed">
+<div
+className="
+text-5xl
+leading-relaxed
+transition-all
+duration-[1800ms]
+"
+>
 
 <div
 className={`
-transition-colors
-duration-[2500ms]
+transition-all
+duration-[2000ms]
+
+${
+hideIntro
+?
+"opacity-0 h-0 overflow-hidden"
+:
+""
+}
 
 ${
 highlight
@@ -268,10 +302,19 @@ highlight
 </div>
 
 
+
 <div
 className={`
-transition-colors
-duration-[2500ms]
+transition-all
+duration-[2000ms]
+
+${
+hideIntro
+?
+"opacity-0 h-0 overflow-hidden"
+:
+""
+}
 
 ${
 highlight
@@ -289,7 +332,8 @@ highlight
 
 
 
-<div>
+
+<div className="text-white font-bold">
 
 {firstName}
 
@@ -297,19 +341,20 @@ highlight
 
 
 
-<div>
+<div className="font-bold">
 
 {
 highlight
 ?
 <>
-{"Ade"}
+
+Ade
 
 <span
 className="
-text-white
 transition-colors
 duration-[2500ms]
+text-white
 "
 >
 
@@ -318,16 +363,118 @@ tunji
 </span>
 
 </>
+
 :
 lastName
 }
 
 </div>
 
+
+
+{showPortfolio&&(
+
+<>
+
+<p className="mt-8 text-lg text-[#00FF41]">
+
+Fullstack Engineer |
+Systems & Architecture
+
+</p>
+
+
+<p className="mt-8 opacity-70 max-w-xs text-sm">
+
+Architecting scalable,
+high-concurrency web
+applications with
+React and Django.
+
+</p>
+
+
+
+<nav className="mt-20">
+
+<ul className="space-y-6 text-sm">
+
+<li>
+
+<a
+href="#about"
+className="
+hover:text-white
+transition-colors
+"
+>
+
+—— ABOUT
+
+</a>
+
+</li>
+
+
+
+<li>
+
+<a
+href="#experience"
+className="
+hover:text-white
+transition-colors
+"
+>
+
+—— EXPERIENCE
+
+</a>
+
+</li>
+
+
+
+<li>
+
+<a
+href="#projects"
+className="
+hover:text-white
+transition-colors
+"
+>
+
+—— PROJECTS
+
+</a>
+
+</li>
+
+</ul>
+
+</nav>
+
+
+<div className="mt-32 text-sm opacity-60">
+
+<p>
+
+tunjiadenipekun@gmail.com
+
+</p>
+
+<p className="mt-2">
+
++234 906 470 7767
+
+</p>
+
 </div>
 
-)}
+</>
 
+)}
 
 {showButton&&(
 
@@ -343,10 +490,11 @@ className="
 mt-16
 border
 border-[#00FF41]/30
-px-5
+px-6
 py-3
 hover:bg-[#00FF41]/10
 transition-all
+text-sm
 "
 
 >
@@ -359,6 +507,10 @@ See my portfolio
 
 </div>
 
+)}
+
+</div>
+
 </div>
 
 
@@ -366,7 +518,7 @@ See my portfolio
 <div
 className={`
 transition-all
-duration-[1400ms]
+duration-[1800ms]
 
 ${
 showPortfolio
@@ -380,23 +532,141 @@ showPortfolio
 
 <div className="py-24 pl-20">
 
-<h2 className="text-white text-3xl mb-10">
+<section
+id="about"
+className="mb-28"
+>
+
+<h2 className="text-white text-xl mb-8">
+
+About
+
+</h2>
+
+<p className="opacity-70 leading-relaxed">
+
+Fullstack engineer
+focused on scalable
+systems, modular
+architecture and
+interactive software.
+
+</p>
+
+</section>
+
+
+
+
+<section
+id="experience"
+className="mb-28"
+>
+
+<h2 className="text-white text-xl mb-8">
 
 Experience
 
 </h2>
 
-<div className="mb-8">
 
-Backend Engineering Intern
+<div className="mb-16">
+
+<h3>
+
+Backend Engineering Intern —
+Nigerian Breweries PLC
+
+</h3>
+
+<p className="mt-4 opacity-70">
+
+Revitalized logistics
+dashboards using
+React and TypeScript.
+
+</p>
 
 </div>
+
+
 
 <div>
 
-Software Engineering Intern
+<h3>
+
+Software Engineering Intern —
+Lagos State Ministry
+
+</h3>
+
+<p className="mt-4 opacity-70">
+
+Built modular
+citizen-facing
+systems.
+
+</p>
 
 </div>
+
+</section>
+
+
+
+
+<section
+id="projects"
+>
+
+<h2 className="text-white text-xl mb-8">
+
+Projects
+
+</h2>
+
+
+
+<a
+href="https://github.com/GlitchPopPhantom/Qboid"
+target="_blank"
+className="
+block
+mb-6
+p-6
+border
+border-[#00FF41]/20
+hover:bg-[#00FF41]/10
+transition-all
+"
+>
+
+Qboid —
+Combat Engine
+
+</a>
+
+
+
+<a
+href="#"
+className="
+block
+p-6
+border
+border-[#00FF41]/20
+hover:bg-[#00FF41]/10
+transition-all
+"
+>
+
+Game Architecture &
+Interactive Systems
+
+</a>
+
+
+</section>
 
 </div>
 
