@@ -1,76 +1,50 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React,{useState,useRef,useEffect} from "react";
 import * as Tone from "tone";
-import {
-  Upload,
-  Play,
-  X
-} from "lucide-react";
+import {Upload,Play,X} from "lucide-react";
 
-interface Note {
-  id: string;
-  note: string;
-  start: number;
-  duration: number;
+interface Note{
+id:string;
+note:string;
+start:number;
+duration:number;
 }
 
-interface SavedPattern {
-  id: string;
-  name: string;
-  notes: Note[];
-}
+export default function InstrumentForge(){
 
-export default function InstrumentForge() {
+const [isEngineStarted,setIsEngineStarted]=useState(false);
 
-  const [isEngineStarted,setIsEngineStarted]=
-    useState(false);
+const [loaded,setLoaded]=useState(false);
 
-  const [loaded,setLoaded]=
-    useState(false);
+const [isPlaying,setIsPlaying]=useState(false);
 
-  const [isPlaying,setIsPlaying]=
-    useState(false);
+const [bpm,setBpm]=useState(120);
 
-  const [bpm,setBpm]=
-    useState(120);
+const [fileName,setFileName]=useState("");
 
-  const [fileName,setFileName]=
-    useState("");
+const [instName,setInstName]=useState("");
 
-  const [instName,setInstName]=
-    useState("");
+const [currentNotes,setCurrentNotes]=useState<Note[]>([]);
 
-  const [history]=
-    useState<AudioBuffer[]>([]);
+const [instruments,setInstruments]=
+useState<{
+name:string;
+sampler:Tone.Sampler;
+}[]>([]);
 
-  const [instruments,setInstruments]=
-    useState<
-      {
-        name:string;
-        sampler:Tone.Sampler
-      }[]
-    >([]);
+const [activeInstIdx,setActiveInstIdx]=
+useState(0);
 
-  const [activeInstIdx,setActiveInstIdx]=
-    useState(0);
+const player=
+useRef<Tone.Player|null>(null);
 
-  const [currentNotes,setCurrentNotes]=
-    useState<Note[]>([]);
+const partRef=
+useRef<Tone.Part|null>(null);
 
-  const [savedPatterns,setSavedPatterns]=
-    useState<SavedPattern[]>([]);
 
-  const [activePatternId,setActivePatternId]=
-    useState<string | null>(null);
 
-  const player=
-    useRef<Tone.Player|null>(null);
-
-  const partRef=
-    useRef<Tone.Part|null>(null);
-
-  const NOTES=[
+const NOTES=[
 
 "C6","B5","A#5","A5",
 "G#5","G5","F#5","F5",
@@ -82,9 +56,11 @@ export default function InstrumentForge() {
 
 "C4","B3","A#3","A3",
 "G#3","G3","F#3","F3",
-"E3","D3","D#3","C3"
+"E3","D#3","D3","C3"
 
 ];
+
+
 
 const COLORS=[
 
@@ -120,18 +96,7 @@ true
 
 
 
-useEffect(()=>{
-
-Tone.Transport.bpm.value=
-bpm;
-
-},[bpm]);
-
-
-
-const processFile=(
-file:File
-)=>{
+const processFile=(file:File)=>{
 
 const url=
 URL.createObjectURL(
@@ -142,12 +107,17 @@ setFileName(
 file.name.split(".")[0]
 );
 
-if(player.current)
+if(player.current){
+
 player.current.dispose();
+
+}
 
 player.current=
 new Tone.Player(
+
 url,
+
 ()=>{
 
 setLoaded(
@@ -155,6 +125,7 @@ true
 );
 
 }
+
 ).toDestination();
 
 };
@@ -164,27 +135,24 @@ true
 const captureInstrument=()=>{
 
 if(
-!player.current ||
+!player.current||
 !loaded
 )
 return;
 
+const buffer=
+player.current.buffer.get();
 
-const audioBuffer=
-player.current
-.buffer
-.get();
-
-if(!audioBuffer)
+if(!buffer)
 return;
-
-
 
 const sampler=
 new Tone.Sampler({
 
 urls:{
-C4:audioBuffer
+
+C4:buffer
+
 }
 
 }).toDestination();
@@ -207,28 +175,28 @@ sampler
 
 ]);
 
-setInstName("");
-
 };
 
 
 
 const addNote=(
 
-noteName:string,
+note:string,
 step:number
 
 )=>{
 
-const newNote={
+setCurrentNotes([
+
+...currentNotes,
+
+{
 
 id:
 Math.random()
-.toString(36)
-.substr(2,9),
+.toString(),
 
-note:
-noteName,
+note,
 
 start:
 step*192,
@@ -236,12 +204,7 @@ step*192,
 duration:
 192
 
-};
-
-setCurrentNotes([
-
-...currentNotes,
-newNote
+}
 
 ]);
 
@@ -249,7 +212,11 @@ newNote
 
 
 
-const deleteNote=(id:string)=>{
+const deleteNote=(
+
+id:string
+
+)=>{
 
 setCurrentNotes(
 
@@ -263,66 +230,13 @@ n=>n.id!==id
 
 
 
-const savePattern=()=>{
-
-const name=
-prompt(
-"Pattern Name"
-);
-
-if(!name)
-return;
-
-const newPat={
-
-id:
-Date.now()
-.toString(),
-
-name,
-
-notes:
-[...currentNotes]
-
-};
-
-setSavedPatterns([
-
-...savedPatterns,
-newPat
-
-]);
-
-setActivePatternId(
-newPat.id
-);
-
-};
-
-
-
-const loadPattern=(
-
-pat:SavedPattern
-
-)=>{
-
-setActivePatternId(
-pat.id
-);
-
-setCurrentNotes(
-pat.notes
-);
-
-};
-
-
-
 useEffect(()=>{
 
-if(partRef.current)
+if(partRef.current){
+
 partRef.current.dispose();
+
+}
 
 
 
@@ -345,10 +259,7 @@ activeInstIdx
 
 noteObj.note,
 
-Tone.Time(
-noteObj.duration,
-"i"
-).toSeconds(),
+"16n",
 
 time
 
@@ -374,23 +285,23 @@ n.start,
 
 );
 
+partRef.current.loop=true;
 
-partRef.current.loop=
-true;
+partRef.current.loopEnd="2m";
 
-partRef.current.loopEnd=
-"2m";
+if(isPlaying){
 
-if(isPlaying)
-partRef.current.start(0);
+partRef.current.start(
+0
+);
+
+}
 
 },[
-
 currentNotes,
 instruments,
 activeInstIdx,
 isPlaying
-
 ]);
 
 
@@ -423,33 +334,22 @@ true
 
 return(
 
-<div
-className="
-p-4
-bg-black
-min-h-screen
-text-white
-font-mono
-flex
-flex-col
-gap-4
-"
->
+<div className="text-white font-mono">
 
 <div
 className="
 flex
 justify-between
-items-center
 border-b
 border-white/10
 pb-4
+mb-4
 "
 >
 
 <h1
 className="
-text-3xl
+text-4xl
 font-black
 text-[#D1107A]
 "
@@ -469,20 +369,15 @@ items-center
 >
 
 <input
-
 type="number"
-
 value={bpm}
-
-onChange={
-e=>
+onChange={(e)=>
 setBpm(
 Number(
 e.target.value
 )
 )
 }
-
 className="
 bg-[#111]
 w-20
@@ -492,11 +387,9 @@ text-center
 
 
 {
-
-!isEngineStarted &&
+!isEngineStarted&&(
 
 <button
-
 onClick={
 startEngine
 }
@@ -504,8 +397,8 @@ startEngine
 className="
 bg-[#10D11A]
 text-black
-px-4
-py-1
+px-5
+py-2
 font-bold
 "
 >
@@ -514,6 +407,7 @@ BOOT
 
 </button>
 
+)
 }
 
 </div>
@@ -522,36 +416,33 @@ BOOT
 
 
 
-<div
-className="
-grid
-lg:grid-cols-12
-gap-4
-"
->
+<div className="grid lg:grid-cols-12 gap-6">
 
-<div
-className="
-lg:col-span-3
-space-y-4
-"
->
+<div className="lg:col-span-3">
 
 <div
 
-onDrop={e=>{
+onDrop={(e)=>{
 
 e.preventDefault();
 
-processFile(
+if(
 e.dataTransfer
 .files[0]
+){
+
+processFile(
+
+e.dataTransfer
+.files[0]
+
 );
+
+}
 
 }}
 
-onDragOver={
-e=>
+onDragOver={(e)=>
 e.preventDefault()
 }
 
@@ -561,30 +452,54 @@ border-2
 border-dashed
 border-[#1088D1]
 flex
-flex-col
-justify-center
 items-center
+justify-center
+relative
 cursor-pointer
 "
 >
 
-<Upload size={16}/>
+<input
 
-Import
+type="file"
+
+accept="audio/*"
+
+className="
+absolute
+inset-0
+opacity-0
+cursor-pointer
+"
+
+onChange={(e)=>{
+
+if(
+e.target
+.files?.[0]
+){
+
+processFile(
+
+e.target
+.files[0]
+
+);
+
+}
+
+}}
+
+/>
+
+<Upload/>
 
 </div>
 
 
+{loaded&&(
 
-{
-
-loaded &&
-
-<div
-className="
-space-y-2
-"
->
+<div className="space-y-2 mt-4">
 
 <button
 
@@ -593,9 +508,9 @@ player.current?.start()
 }
 
 className="
-w-full
 bg-white
 text-black
+w-full
 py-2
 "
 >
@@ -611,8 +526,7 @@ className="mx-auto"
 
 value={instName}
 
-onChange={
-e=>
+onChange={(e)=>
 setInstName(
 e.target.value
 )
@@ -625,8 +539,8 @@ w-full
 bg-black
 border-b
 "
-/>
 
+/>
 
 
 <button
@@ -636,11 +550,10 @@ captureInstrument
 }
 
 className="
-w-full
 bg-[#10D11A]
 text-black
+w-full
 py-2
-font-bold
 "
 
 >
@@ -651,49 +564,13 @@ CAPTURE
 
 </div>
 
-}
-
-
-{
-
-instruments.map(
-(inst,i)=>(
-
-<div
-
-key={i}
-
-onClick={()=>
-setActiveInstIdx(i)
-}
-
-className="
-border
-p-2
-cursor-pointer
-"
-
->
-
-{inst.name}
-
-</div>
-
-)
-
-)
-
-}
+)}
 
 </div>
 
 
 
-<div
-className="
-lg:col-span-9
-"
->
+<div className="lg:col-span-9">
 
 <button
 
@@ -702,27 +579,227 @@ togglePlayback
 }
 
 className="
-mb-4
-px-6
-py-2
 bg-[#10D11A]
 text-black
-font-bold
+px-6
+py-2
+mb-4
 "
 
 >
 
 {
-
 isPlaying
 ?
 "STOP"
 :
 "PLAY"
-
 }
 
 </button>
+
+
+
+<div
+className="
+relative
+overflow-auto
+bg-[#030303]
+border
+border-white/10
+h-[500px]
+"
+>
+
+<div
+className="
+inline-grid
+grid-cols-[60px_1fr]
+"
+>
+
+<div
+className="
+sticky
+left-0
+bg-[#050505]
+z-20
+"
+>
+
+{
+
+NOTES.map(
+(note,i)=>(
+
+<div
+
+key={note}
+
+className="
+h-6
+w-[60px]
+pl-2
+text-[8px]
+flex
+items-center
+border-b
+border-white/10
+"
+
+style={{
+color:
+COLORS[
+i%
+COLORS.length
+]
+}}
+
+>
+
+{note}
+
+</div>
+
+)
+
+)
+
+}
+
+</div>
+
+
+
+<div
+className="
+relative
+w-[1536px]
+h-full
+bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)]
+bg-[size:48px_24px]
+"
+>
+
+{
+
+currentNotes.map(
+n=>{
+
+const noteIndex=
+NOTES.indexOf(
+n.note
+);
+
+return(
+
+<div
+
+key={n.id}
+
+onContextMenu={(e)=>{
+
+e.preventDefault();
+
+deleteNote(
+n.id
+);
+
+}}
+
+className="
+absolute
+"
+
+style={{
+
+left:
+`${(n.start/192)*48}px`,
+
+top:
+`${noteIndex*24}px`,
+
+width:
+`${(n.duration/192)*48}px`,
+
+height:"24px",
+
+backgroundColor:
+COLORS[
+noteIndex%
+COLORS.length
+]
+
+}}
+
+>
+
+</div>
+
+);
+
+}
+
+)
+
+}
+
+
+
+{
+
+NOTES.map(
+(note,row)=>
+
+Array(32)
+.fill(0)
+.map((_,step)=>(
+
+<div
+
+key=
+{`${row}-${step}`}
+
+onClick={()=>
+
+addNote(
+note,
+step
+)
+
+}
+
+className="
+absolute
+h-6
+w-12
+hover:bg-white/5
+cursor-crosshair
+"
+
+style={{
+
+left:
+`${step*48}px`,
+
+top:
+`${row*24}px`
+
+}}
+
+>
+
+</div>
+
+))
+
+)
+
+}
+
+</div>
+
+</div>
 
 </div>
 
