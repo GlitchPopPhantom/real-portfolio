@@ -638,62 +638,53 @@ COLORS.length
 
 )}
 
-{NOTES.map(
-(note,row)=>
+{currentNotes.map((n) => {
 
-Array(32)
-.fill(0)
-.map((_,step)=>(
+  const noteIndex =
+    NOTES.indexOf(n.note);
 
-<div
+  return (
 
-key={
-`${row}-${step}`
-}
+    <div
+      key={n.id}
 
-onClick={()=>
-addNote(
-note,
-step
-)
-}
+      onContextMenu={(e)=>{
 
-className="
-absolute
-h-6
-w-12
-hover:bg-white/5
-cursor-crosshair
-"
+        e.preventDefault();
 
-style={{
+        deleteNote(
+          n.id
+        );
 
-left:
-`${step*48}px`,
+      }}
 
-top:
-`${row*24}px`
+      className="absolute"
 
-}}
+      style={{
 
->
+        left:
+        `${(n.start/192)*48}px`,
 
-</div>
+        top:
+        `${noteIndex*24}px`,
 
-))
+        width:
+        `${(n.duration/192)*48}px`,
 
-)}
+        height:"24px",
 
-</div>
+        backgroundColor:
+        COLORS[
+          noteIndex %
+          COLORS.length
+        ]
 
-</div>
+      }}
 
-</div>
+    >
 
-</div>
+    </div>
 
-</div>
+  );
 
-);
-
-}
+})}
