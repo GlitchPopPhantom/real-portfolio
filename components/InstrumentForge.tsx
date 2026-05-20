@@ -1,6 +1,3 @@
-Here is the corrected and fully formatted script. I have removed the duplicate rendering loop for `currentNotes` that was causing issues, and cleaned up the aggressive line-breaks to make the code much more readable and maintainable.
-
-```tsx
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -303,5 +300,3 @@ export default function InstrumentForge() {
     </div>
   );
 }
-
-```
