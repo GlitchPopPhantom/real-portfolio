@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import React, { useEffect, useState } from "react";
 
 export default function Home() {
@@ -679,7 +681,23 @@ mb-6
 PROJECTS
 
 </h2>
+<Link
+href="/juicebox"
 
+className="
+block
+p-5
+border
+border-[#00FF41]/20
+hover:bg-[#00FF41]/10
+transition-all
+"
+>
+
+Juicebox —
+Interactive Audio Workstation
+
+</Link>
 
 <a
 href="https://github.com/GlitchPopPhantom/Qboid"
