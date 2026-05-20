@@ -69,7 +69,9 @@ export default function Juicebox() {
   const captureInstrument = () => {
     if (!player.current || !loaded) return;
     const sampler = new Tone.Sampler({
-      urls: { "C4": player.current.buffer.get() },
+      {
+   C4: audioBuffer
+}
     }).toDestination();
     
     // THE ANTI-LOOP KILLER: Ensure Sampler doesn't loop internal buffer
