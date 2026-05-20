@@ -8,18 +8,15 @@ function MainPortfolio() {
   const searchParams = useSearchParams();
   const isPortfolio = searchParams.get("portfolio") === "true";
 
-  // Initialize states based on the URL parameter
   const [loading, setLoading] = useState(!isPortfolio);
   const [loadingText, setLoadingText] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
 
-  // If ?portfolio=true, instantly fill in the words
   const [hi, setHi] = useState(isPortfolio ? "Hi" : "");
   const [im, setIm] = useState(isPortfolio ? "I'm" : "");
   const [firstName, setFirstName] = useState(isPortfolio ? "Adenipekun" : "");
   const [lastName, setLastName] = useState(isPortfolio ? "Adetunji" : "");
 
-  // Instantly trigger highlights and buttons if bypassing intro
   const [highlight, setHighlight] = useState(isPortfolio);
   const [showButton, setShowButton] = useState(isPortfolio);
   const [showPortfolio, setShowPortfolio] = useState(isPortfolio);
@@ -43,13 +40,11 @@ function MainPortfolio() {
   }
 
   useEffect(() => {
-    // Abort the animation completely if we're bypassing it
     if (isPortfolio) return;
 
     async function run() {
       await typeText("Loading", setLoadingText);
 
-      // blink 3x
       for (let i = 0; i < 6; i++) {
         setCursorVisible((v) => !v);
         await sleep(250);
@@ -221,7 +216,6 @@ function MainPortfolio() {
           <section id="projects">
             <h2 className="text-white mb-6">PROJECTS</h2>
             
-            {/* Navigates cleanly over to the juicebox page */}
             <Link
               href="/juicebox"
               className="block p-5 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all mb-6"
@@ -244,8 +238,6 @@ function MainPortfolio() {
   );
 }
 
-// Next.js requires components utilizing `useSearchParams` to be wrapped in a 
-// Suspense boundary so they do not break static rendering builds.
 export default function Home() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-black" />}>
@@ -253,4 +245,3 @@ export default function Home() {
     </Suspense>
   );
 }
-```</Suspense>
