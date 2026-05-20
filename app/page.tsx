@@ -3,181 +3,206 @@
 import React, { useEffect, useState } from "react";
 
 export default function Home() {
-  const [loading, setLoading] = useState(true);
 
-  const [loadingText, setLoadingText] = useState("");
+const [loading,setLoading]=useState(true);
 
-  const [cursorVisible, setCursorVisible] =
-    useState(true);
+const [loadingText,setLoadingText]=
+useState("");
 
-  const [hi, setHi] = useState("");
-  const [im, setIm] = useState("");
-  const [firstName, setFirstName] =
-    useState("");
+const [cursorVisible,setCursorVisible]=
+useState(true);
 
-  const [lastName, setLastName] =
-    useState("");
+const [hi,setHi]=useState("");
+const [im,setIm]=useState("");
 
-  const [highlight, setHighlight] =
-    useState(false);
+const [firstName,setFirstName]=
+useState("");
 
-  const [showButton, setShowButton] =
-    useState(false);
+const [lastName,setLastName]=
+useState("");
 
-  const [showPortfolio, setShowPortfolio] =
-    useState(false);
+const [highlight,setHighlight]=
+useState(false);
 
-  function sleep(ms:number){
+const [showButton,setShowButton]=
+useState(false);
 
-    return new Promise(
-      resolve=>setTimeout(resolve,ms)
-    );
-
-  }
+const [showPortfolio,setShowPortfolio]=
+useState(false);
 
 
-  async function typeText(
-    text:string,
-    setter:React.Dispatch<
-      React.SetStateAction<string>
-    >
-  ){
 
-    for(
-      let i=0;
-      i<=text.length;
-      i++
-    ){
+function sleep(ms:number){
 
-      setter(
-        text.slice(0,i)
-      );
+return new Promise(
+resolve=>setTimeout(resolve,ms)
+);
 
-      await sleep(90);
-
-    }
-
-  }
+}
 
 
-  async function backspace(
-    text:string,
-    setter:React.Dispatch<
-      React.SetStateAction<string>
-    >
-  ){
+async function typeText(
+text:string,
+setter:React.Dispatch<
+React.SetStateAction<string>
+>
+){
 
-    for(
-      let i=text.length;
-      i>=0;
-      i--
-    ){
+for(
+let i=0;
+i<=text.length;
+i++
+){
 
-      setter(
-        text.slice(0,i)
-      );
+setter(
+text.slice(0,i)
+);
 
-      await sleep(50);
+await sleep(90);
 
-    }
+}
 
-  }
-
-
-  useEffect(()=>{
-
-    async function run(){
-
-      await typeText(
-        "Loading",
-        setLoadingText
-      );
+}
 
 
-      // blink 3x
+async function backspace(
+text:string,
+setter:React.Dispatch<
+React.SetStateAction<string>
+>
+){
 
-      for(
-        let i=0;
-        i<6;
-        i++
-      ){
+for(
+let i=text.length;
+i>=0;
+i--
+){
 
-        setCursorVisible(
-          v=>!v
-        );
+setter(
+text.slice(0,i)
+);
 
-        await sleep(250);
+await sleep(50);
 
-      }
+}
 
-
-      setCursorVisible(
-        true
-      );
-
-
-      await backspace(
-        "Loading",
-        setLoadingText
-      );
+}
 
 
-      setLoading(
-        false
-      );
+
+useEffect(()=>{
+
+async function run(){
+
+await typeText(
+"Loading",
+setLoadingText
+);
 
 
-      await sleep(300);
+// blink 3x
+
+for(
+let i=0;
+i<6;
+i++
+){
+
+setCursorVisible(
+v=>!v
+);
+
+await sleep(
+250
+);
+
+}
 
 
-      await typeText(
-        "Hi",
-        setHi
-      );
-
-      await sleep(300);
+setCursorVisible(
+true
+);
 
 
-      await typeText(
-        "I'm",
-        setIm
-      );
-
-      await sleep(300);
+await backspace(
+"Loading",
+setLoadingText
+);
 
 
-      await typeText(
-        "Adenipekun",
-        setFirstName
-      );
-
-      await sleep(300);
+setLoading(
+false
+);
 
 
-      await typeText(
-        "Adetunji",
-        setLastName
-      );
+await sleep(
+300
+);
 
 
-      await sleep(1000);
+await typeText(
+"Hi",
+setHi
+);
 
-      setHighlight(
-        true
-      );
+
+await sleep(
+300
+);
 
 
-      await sleep(1400);
+await typeText(
+"I'm",
+setIm
+);
 
-      setShowButton(
-        true
-      );
 
-    }
+await sleep(
+300
+);
 
-    run();
 
-  },[]);
+await typeText(
+"Adenipekun",
+setFirstName
+);
+
+
+await sleep(
+300
+);
+
+
+await typeText(
+"Adetunji",
+setLastName
+);
+
+
+await sleep(
+1000
+);
+
+
+setHighlight(
+true
+);
+
+
+await sleep(
+1500
+);
+
+
+setShowButton(
+true
+);
+
+}
+
+run();
+
+},[]);
 
 
 
@@ -191,8 +216,8 @@ bg-black
 flex
 items-center
 justify-center
-font-mono
 text-[#00FF41]
+font-mono
 ">
 
 <div
@@ -230,7 +255,6 @@ left-[8ch]
 
 
 
-
 return(
 
 <div className="
@@ -245,6 +269,7 @@ className="
 max-w-screen-xl
 mx-auto
 px-6
+md:px-12
 lg:px-24
 flex
 flex-col
@@ -255,29 +280,36 @@ lg:flex-row
 
 
 <header
-className="
-lg:w-[40%]
+
+className={`
 h-screen
 sticky
 top-0
 flex
 flex-col
-justify-center
-"
+transition-all
+duration-[1800ms]
+
+${
+showPortfolio
+?
+"lg:w-[40%] justify-start pt-24"
+:
+"w-full items-center justify-center"
+}
+`}
 >
 
 <div>
 
-
-<div
-className="
+<div className="
 text-5xl
 font-bold
 leading-tight
-"
->
+">
 
 <div
+
 className={`
 transition-all
 duration-[2000ms]
@@ -305,7 +337,9 @@ highlight
 </div>
 
 
+
 <div
+
 className={`
 transition-all
 duration-[2000ms]
@@ -333,54 +367,48 @@ highlight
 </div>
 
 
-<div
-className={`
-text-[#00FF41]
-transition-all
-duration-[1500ms]
 
-${
+<div className="
+text-[#00FF41]
+">
+
+{
 showPortfolio
 ?
-"text-white"
+`${firstName} ${lastName}`
 :
-""
+firstName
 }
-`}
->
-
-{firstName}
 
 </div>
+
 
 
 <div>
 
 {
+!showPortfolio
+&&
+(
 highlight
 ?
 <>
 Ade
-
 <span
 className="
 text-white
 transition-colors
 duration-[2500ms]
-"
->
-
+">
 tunji
-
 </span>
 </>
-
 :
 lastName
+)
 }
 
 </div>
-
 
 </div>
 
@@ -416,7 +444,9 @@ See my portfolio
 
 </button>
 
-)}
+)
+}
+
 
 
 
@@ -435,15 +465,16 @@ Systems & Architecture
 </p>
 
 
+
 <p className="
-mt-5
+mt-6
 max-w-xs
 opacity-70
 ">
 
-Architecting scalable,
+Architecting scalable
 high-concurrency web
-applications using
+applications with
 React & Django.
 
 </p>
@@ -456,6 +487,7 @@ mt-16
 
 <ul className="
 space-y-6
+text-sm
 ">
 
 <li>
@@ -512,10 +544,9 @@ hover:text-white
 
 
 <div className="
-mt-auto
-pt-24
-opacity-60
+mt-32
 text-sm
+opacity-60
 ">
 
 <p>
@@ -541,7 +572,9 @@ mt-2
 
 
 
+
 <main
+
 className={`
 transition-all
 duration-[1500ms]
@@ -577,11 +610,10 @@ opacity-70
 leading-relaxed
 ">
 
-Fullstack engineer
-focused on scalable
-systems, modular
-architecture and
-interactive software.
+Fullstack engineer focused on
+modular systems,
+interactive software and
+scalable architecture.
 
 </p>
 
@@ -626,9 +658,7 @@ Lagos State Ministry
 
 
 
-<section
-id="projects"
->
+<section id="projects">
 
 <h2 className="
 text-white
