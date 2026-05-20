@@ -637,54 +637,62 @@ COLORS.length
 }
 
 )}
-
+  
 {currentNotes.map((n) => {
-
-  const noteIndex =
-    NOTES.indexOf(n.note);
+  const noteIndex = NOTES.indexOf(n.note);
 
   return (
-
     <div
       key={n.id}
-
-      onContextMenu={(e)=>{
-
+      onContextMenu={(e) => {
         e.preventDefault();
-
-        deleteNote(
-          n.id
-        );
-
+        deleteNote(n.id);
       }}
-
       className="absolute"
-
       style={{
-
-        left:
-        `${(n.start/192)*48}px`,
-
-        top:
-        `${noteIndex*24}px`,
-
-        width:
-        `${(n.duration/192)*48}px`,
-
-        height:"24px",
-
+        left: `${(n.start / 192) * 48}px`,
+        top: `${noteIndex * 24}px`,
+        width: `${(n.duration / 192) * 48}px`,
+        height: "24px",
         backgroundColor:
-        COLORS[
-          noteIndex %
-          COLORS.length
-        ]
-
+          COLORS[noteIndex % COLORS.length],
       }}
-
-    >
-
-    </div>
-
+    />
   );
-
 })}
+
+{NOTES.map((note, row) =>
+  Array(32)
+    .fill(0)
+    .map((_, step) => (
+      <div
+        key={`${row}-${step}`}
+        onClick={() =>
+          addNote(
+            note,
+            step
+          )
+        }
+        className="
+          absolute
+          h-6
+          w-12
+          hover:bg-white/5
+          cursor-crosshair
+        "
+        style={{
+          left: `${step * 48}px`,
+          top: `${row * 24}px`,
+        }}
+      />
+    ))
+)}
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
