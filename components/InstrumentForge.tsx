@@ -1,334 +1,254 @@
 "use client";
 
-import React,{useState,useRef,useEffect} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as Tone from "tone";
-import {Upload,Play,X} from "lucide-react";
+import { Upload, Play } from "lucide-react";
 
-interface Note{
-id:string;
-note:string;
-start:number;
-duration:number;
+interface Note {
+  id: string;
+  note: string;
+  start: number;
+  duration: number;
 }
 
-export default function InstrumentForge(){
+export default function InstrumentForge() {
+  const [isEngineStarted, setIsEngineStarted] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const [bpm, setBpm] = useState(120);
+
+  const [fileName, setFileName] = useState("");
+  const [instName, setInstName] = useState("");
+
+  const [currentNotes, setCurrentNotes] = useState<Note[]>([]);
+
+  const [instruments, setInstruments] = useState<
+    {
+      name: string;
+      sampler: Tone.Sampler;
+    }[]
+  >([]);
+
+  const [activeInstIdx, setActiveInstIdx] = useState(0);
+
+  const player = useRef<Tone.Player | null>(null);
+
+  const partRef = useRef<Tone.Part | null>(null);
+
+  const NOTES = [
+    "C6","B5","A#5","A5","G#5","G5","F#5","F5",
+    "E5","D#5","D5","C#5",
+    "C5","B4","A#4","A4","G#4","G4","F#4","F4",
+    "E4","D#4","D4","C#4",
+    "C4","B3","A#3","A3","G#3","G3","F#3","F3",
+    "E3","D#3","D3","C3"
+  ];
+
+  const COLORS = [
+    "#D1107A",
+    "#A810D1",
+    "#5F10D1",
+    "#102AD1",
+    "#1088D1",
+    "#10D1B5",
+    "#10D11A",
+    "#94D110",
+    "#F7E60A",
+    "#F2A10D",
+    "#E36210",
+    "#D11010"
+  ];
+
+  const startEngine = async () => {
+    await Tone.start();
+
+    Tone.Transport.bpm.value = bpm;
+
+    setIsEngineStarted(true);
+  };
+
+  useEffect(() => {
+    Tone.Transport.bpm.value = bpm;
+  }, [bpm]);
+
+  const processFile = (file: File) => {
+    const url = URL.createObjectURL(file);
+
+    setFileName(
+      file.name.split(".")[0]
+    );
+
+    if (player.current) {
+      player.current.dispose();
+    }
+
+    player.current = new Tone.Player(
+      url,
+      () => {
+        setLoaded(true);
+      }
+    ).toDestination();
+  };
+
+  const captureInstrument = () => {
+    if (!player.current || !loaded) return;
+
+    const buffer =
+      player.current.buffer.get();
+
+    if (!buffer) return;
+
+    const sampler =
+      new Tone.Sampler({
+        urls: {
+          C4: buffer
+        }
+      }).toDestination();
+
+    setInstruments(prev => [
+      ...prev,
+      {
+        name:
+          instName ||
+          fileName,
+        sampler
+      }
+    ]);
 
-const [isEngineStarted,setIsEngineStarted]=useState(false);
+    setInstName("");
+  };
 
-const [loaded,setLoaded]=useState(false);
+  const addNote = (
+    note: string,
+    step: number
+  ) => {
 
-const [isPlaying,setIsPlaying]=useState(false);
+    setCurrentNotes(prev => [
+      ...prev,
+      {
+        id:
+          crypto.randomUUID(),
 
-const [bpm,setBpm]=useState(120);
+        note,
 
-const [fileName,setFileName]=useState("");
+        start:
+          step * 192,
 
-const [instName,setInstName]=useState("");
+        duration:
+          192
+      }
+    ]);
 
-const [currentNotes,setCurrentNotes]=useState<Note[]>([]);
+  };
 
-const [instruments,setInstruments]=
-useState<{
-name:string;
-sampler:Tone.Sampler;
-}[]>([]);
+  const deleteNote = (
+    id:string
+  ) => {
 
-const [activeInstIdx,setActiveInstIdx]=
-useState(0);
+    setCurrentNotes(
+      prev=>
+      prev.filter(
+        n=>
+        n.id!==id
+      )
+    );
 
-const player=
-useRef<Tone.Player|null>(null);
+  };
 
-const partRef=
-useRef<Tone.Part|null>(null);
+  useEffect(() => {
 
+    if(partRef.current){
+      partRef.current.dispose();
+    }
 
+    partRef.current =
+      new Tone.Part(
 
-const NOTES=[
+      (
+        time,
+        noteObj: Note
+      )=>{
 
-"C6","B5","A#5","A5",
-"G#5","G5","F#5","F5",
-"E5","D#5","D5","C#5",
+        const inst =
+          instruments[
+            activeInstIdx
+          ];
 
-"C5","B4","A#4","A4",
-"G#4","G4","F#4","F4",
-"E4","D#4","D4","C#4",
+        if(!inst)
+          return;
 
-"C4","B3","A#3","A3",
-"G#3","G3","F#3","F3",
-"E3","D#3","D3","C3"
+        inst.sampler
+        .triggerAttackRelease(
+          noteObj.note,
+          "16n",
+          time
+        );
 
-];
+      },
 
+      currentNotes.map(
+        n=>({
 
+          time:
+          Tone.Time(
+            n.start,
+            "i"
+          ).toSeconds(),
 
-const COLORS=[
+          ...n
 
-"#D1107A",
-"#A810D1",
-"#5F10D1",
-"#102AD1",
-"#1088D1",
-"#10D1B5",
-"#10D11A",
-"#94D110",
-"#F7E60A",
-"#F2A10D",
-"#E36210",
-"#D11010"
+        })
+      )
 
-];
+    );
 
+    partRef.current.loop =
+      true;
 
+    partRef.current.loopEnd =
+      "2m";
 
-const startEngine=async()=>{
+    if(isPlaying){
 
-await Tone.start();
+      partRef.current.start(
+        0
+      );
 
-Tone.Transport.bpm.value=
-bpm;
+    }
 
-setIsEngineStarted(
-true
-);
+  },[
+    currentNotes,
+    instruments,
+    activeInstIdx,
+    isPlaying
+  ]);
 
-};
 
 
+  const togglePlayback=()=>{
 
-const processFile=(file:File)=>{
+    if(isPlaying){
 
-const url=
-URL.createObjectURL(
-file
-);
+      Tone.Transport.stop();
 
-setFileName(
-file.name.split(".")[0]
-);
+      setIsPlaying(
+        false
+      );
 
-if(player.current){
+    }
 
-player.current.dispose();
+    else{
 
-}
+      Tone.Transport.start();
 
-player.current=
-new Tone.Player(
+      setIsPlaying(
+        true
+      );
 
-url,
+    }
 
-()=>{
-
-setLoaded(
-true
-);
-
-}
-
-).toDestination();
-
-};
-
-
-
-const captureInstrument=()=>{
-
-if(
-!player.current||
-!loaded
-)
-return;
-
-const buffer=
-player.current.buffer.get();
-
-if(!buffer)
-return;
-
-const sampler=
-new Tone.Sampler({
-
-urls:{
-
-C4:buffer
-
-}
-
-}).toDestination();
-
-
-
-setInstruments([
-
-...instruments,
-
-{
-
-name:
-instName||
-fileName,
-
-sampler
-
-}
-
-]);
-
-};
-
-
-
-const addNote=(
-
-note:string,
-step:number
-
-)=>{
-
-setCurrentNotes([
-
-...currentNotes,
-
-{
-
-id:
-Math.random()
-.toString(),
-
-note,
-
-start:
-step*192,
-
-duration:
-192
-
-}
-
-]);
-
-};
-
-
-
-const deleteNote=(
-
-id:string
-
-)=>{
-
-setCurrentNotes(
-
-currentNotes.filter(
-n=>n.id!==id
-)
-
-);
-
-};
-
-
-
-useEffect(()=>{
-
-if(partRef.current){
-
-partRef.current.dispose();
-
-}
-
-
-
-partRef.current=
-new Tone.Part(
-
-(time,noteObj:Note)=>{
-
-if(
-instruments[
-activeInstIdx
-]
-){
-
-instruments[
-activeInstIdx
-]
-.sampler
-.triggerAttackRelease(
-
-noteObj.note,
-
-"16n",
-
-time
-
-);
-
-}
-
-},
-
-currentNotes.map(
-n=>({
-
-time:
-Tone.Time(
-n.start,
-"i"
-).toSeconds(),
-
-...n
-
-})
-)
-
-);
-
-partRef.current.loop=true;
-
-partRef.current.loopEnd="2m";
-
-if(isPlaying){
-
-partRef.current.start(
-0
-);
-
-}
-
-},[
-currentNotes,
-instruments,
-activeInstIdx,
-isPlaying
-]);
-
-
-
-const togglePlayback=()=>{
-
-if(isPlaying){
-
-Tone.Transport.stop();
-
-setIsPlaying(
-false
-);
-
-}
-
-else{
-
-Tone.Transport.start();
-
-setIsPlaying(
-true
-);
-
-}
-
-};
+  };
 
 
 
@@ -340,10 +260,11 @@ return(
 className="
 flex
 justify-between
+items-center
+mb-6
 border-b
 border-white/10
 pb-4
-mb-4
 "
 >
 
@@ -359,12 +280,11 @@ JUICEBOX_OS
 
 </h1>
 
-
 <div
 className="
 flex
-gap-4
 items-center
+gap-4
 "
 >
 
@@ -385,30 +305,24 @@ text-center
 "
 />
 
-
-{
-!isEngineStarted&&(
+{!isEngineStarted && (
 
 <button
 onClick={
 startEngine
 }
-
 className="
 bg-[#10D11A]
 text-black
-px-5
-py-2
 font-bold
+px-4
+py-2
 "
 >
-
 BOOT
-
 </button>
 
-)
-}
+)}
 
 </div>
 
@@ -427,15 +341,11 @@ onDrop={(e)=>{
 e.preventDefault();
 
 if(
-e.dataTransfer
-.files[0]
+e.dataTransfer.files?.[0]
 ){
 
 processFile(
-
-e.dataTransfer
-.files[0]
-
+e.dataTransfer.files[0]
 );
 
 }
@@ -447,14 +357,14 @@ e.preventDefault()
 }
 
 className="
+relative
 h-24
 border-2
 border-dashed
 border-[#1088D1]
 flex
-items-center
 justify-center
-relative
+items-center
 cursor-pointer
 "
 >
@@ -475,31 +385,31 @@ cursor-pointer
 onChange={(e)=>{
 
 if(
-e.target
-.files?.[0]
+e.target.files?.[0]
 ){
 
 processFile(
-
-e.target
-.files[0]
-
+e.target.files[0]
 );
 
 }
 
 }}
 
-/>
+ />
 
-<Upload/>
+<Upload size={18}/>
+<span className="ml-2">
+Import
+</span>
 
 </div>
 
 
-{loaded&&(
 
-<div className="space-y-2 mt-4">
+{loaded && (
+
+<div className="mt-4 space-y-2">
 
 <button
 
@@ -515,9 +425,7 @@ py-2
 "
 >
 
-<Play
-className="mx-auto"
-/>
+<Play className="mx-auto"/>
 
 </button>
 
@@ -539,9 +447,7 @@ w-full
 bg-black
 border-b
 "
-
 />
-
 
 <button
 
@@ -554,6 +460,7 @@ bg-[#10D11A]
 text-black
 w-full
 py-2
+font-bold
 "
 
 >
@@ -579,25 +486,20 @@ togglePlayback
 }
 
 className="
+mb-4
 bg-[#10D11A]
 text-black
 px-6
 py-2
-mb-4
 "
 
 >
 
-{
-isPlaying
-?
-"STOP"
-:
-"PLAY"
-}
+{isPlaying
+? "STOP"
+: "PLAY"}
 
 </button>
-
 
 
 <div
@@ -627,9 +529,7 @@ z-20
 "
 >
 
-{
-
-NOTES.map(
+{NOTES.map(
 (note,i)=>(
 
 <div
@@ -641,16 +541,16 @@ h-6
 w-[60px]
 pl-2
 text-[8px]
-flex
-items-center
 border-b
 border-white/10
+flex
+items-center
 "
 
 style={{
 color:
 COLORS[
-i%
+i %
 COLORS.length
 ]
 }}
@@ -663,9 +563,7 @@ COLORS.length
 
 )
 
-)
-
-}
+)}
 
 </div>
 
@@ -675,15 +573,13 @@ COLORS.length
 className="
 relative
 w-[1536px]
-h-full
+h-[864px]
 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)]
 bg-[size:48px_24px]
 "
 >
 
-{
-
-currentNotes.map(
+{currentNotes.map(
 n=>{
 
 const noteIndex=
@@ -726,7 +622,7 @@ height:"24px",
 
 backgroundColor:
 COLORS[
-noteIndex%
+noteIndex %
 COLORS.length
 ]
 
@@ -740,15 +636,9 @@ COLORS.length
 
 }
 
-)
+)}
 
-}
-
-
-
-{
-
-NOTES.map(
+{NOTES.map(
 (note,row)=>
 
 Array(32)
@@ -757,16 +647,15 @@ Array(32)
 
 <div
 
-key=
-{`${row}-${step}`}
+key={
+`${row}-${step}`
+}
 
 onClick={()=>
-
 addNote(
 note,
 step
 )
-
 }
 
 className="
@@ -793,9 +682,7 @@ top:
 
 ))
 
-)
-
-}
+)}
 
 </div>
 
