@@ -368,9 +368,20 @@ highlight
 
 
 
-<div className="
-text-[#00FF41]
-">
+<div
+className={`
+transition-colors
+duration-[1500ms]
+
+${
+showPortfolio
+?
+"text-white"
+:
+"text-[#00FF41]"
+}
+`}
+>
 
 {
 showPortfolio
