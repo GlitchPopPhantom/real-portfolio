@@ -152,38 +152,50 @@ function MainPortfolio() {
 
             {showPortfolio && (
               <>
-                <p className="mt-8 text-lg">
-                  Fullstack Engineer | Systems & Architecture
+                <p className="mt-8 text-lg font-bold text-white">
+                  Software Engineer
                 </p>
 
-                <p className="mt-6 max-w-xs opacity-70">
-                  Architecting scalable high-concurrency web applications with
-                  React & Django.
+                <p className="mt-4 max-w-xs opacity-70">
+                  Performance-driven engineer specializing in scalable architecture, React, and Django backends.
                 </p>
 
-                <nav className="mt-16">
-                  <ul className="space-y-6 text-sm">
+                <nav className="mt-12">
+                  <ul className="space-y-4 text-sm">
                     <li>
-                      <a href="#about" className="hover:text-white">
+                      <a href="#about" className="hover:text-white transition-colors">
                         —— ABOUT
                       </a>
                     </li>
                     <li>
-                      <a href="#experience" className="hover:text-white">
+                      <a href="#experience" className="hover:text-white transition-colors">
                         —— EXPERIENCE
                       </a>
                     </li>
                     <li>
-                      <a href="#projects" className="hover:text-white">
+                      <a href="#skills" className="hover:text-white transition-colors">
+                        —— SKILLS
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#projects" className="hover:text-white transition-colors">
                         —— PROJECTS
                       </a>
                     </li>
                   </ul>
                 </nav>
 
-                <div className="mt-32 text-sm opacity-60">
+                <div className="mt-24 text-sm opacity-60">
                   <p>tunjiadenipekun@gmail.com</p>
                   <p className="mt-2">+234 906 470 7767</p>
+                  <a 
+                    href="https://tunji-adenipekun.vercel.app" 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="mt-2 block hover:text-white transition-colors"
+                  >
+                    tunji-adenipekun.vercel.app
+                  </a>
                 </div>
               </>
             )}
@@ -197,39 +209,102 @@ function MainPortfolio() {
               : "opacity-0 w-0 overflow-hidden"
           }`}
         >
+          {/* ABOUT SECTION */}
           <section id="about" className="mb-28">
-            <h2 className="text-white mb-6">ABOUT</h2>
-            <p className="opacity-70 leading-relaxed">
-              Fullstack engineer focused on modular systems, interactive software
-              and scalable architecture.
+            <h2 className="text-white mb-8 text-xl font-bold">ABOUT</h2>
+            <p className="opacity-80 leading-relaxed">
+              Performance-driven Backend Engineer specializing in architecting scalable, high-concurrency web applications. With a foundation in React and deep expertise in bridging the gap between sophisticated UI/UX and robust Django-based backends, I focus on building optimized, accessible, and maintainable digital products. I specialize in turning complex architectural requirements into fluid, low-latency user experiences through advanced state management, modular component design, and rigorous performance engineering.
             </p>
           </section>
 
+          {/* EXPERIENCE SECTION */}
           <section id="experience" className="mb-28">
-            <h2 className="text-white mb-6">EXPERIENCE</h2>
-            <div className="mb-16">
-              Backend Engineering Intern — Nigerian Breweries PLC
+            <h2 className="text-white mb-8 text-xl font-bold">EXPERIENCE</h2>
+            
+            <div className="mb-12">
+              <h3 className="text-white text-lg mb-1">Frontend Engineering Intern</h3>
+              <div className="text-sm opacity-60 mb-4 tracking-wide">
+                Nigerian Breweries PLC | Mar 2024 – Sept 2024
+              </div>
+              <ul className="list-disc pl-5 space-y-3 opacity-80 leading-relaxed">
+                <li>Spearheaded the revitalization of internal logistics dashboards, replacing legacy interfaces with high-performance React/TypeScript modules.</li>
+                <li>Optimized data-heavy visualizations for supply chain monitoring, reducing page load latency by 35% through advanced memoization and code-splitting strategies.</li>
+                <li>Collaborated with stakeholders to implement a mobile-first UI for field distributors, significantly increasing data entry accuracy across the region.</li>
+              </ul>
             </div>
-            <div>Software Engineering Intern — Lagos State Ministry</div>
+
+            <div>
+              <h3 className="text-white text-lg mb-1">Software Engineering Intern</h3>
+              <div className="text-sm opacity-60 mb-4 tracking-wide">
+                Lagos State Ministry of Science and Technology | July 2023 – Sept 2023
+              </div>
+              <ul className="list-disc pl-5 space-y-3 opacity-80 leading-relaxed">
+                <li>Engineered accessible, citizen-facing web portals using modern JavaScript frameworks, ensuring compliance with international web accessibility (WCAG) standards.</li>
+                <li>Developed modular UI components for state-wide digital initiatives, facilitating a 50% faster rollout for subsequent government service modules.</li>
+                <li>Optimized frontend security protocols and form handling for high-volume traffic during public service registration drives.</li>
+              </ul>
+            </div>
           </section>
 
+          {/* SKILLS SECTION */}
+          <section id="skills" className="mb-28">
+            <h2 className="text-white mb-8 text-xl font-bold">TECHNICAL SKILLS</h2>
+            
+            <div className="grid md:grid-cols-2 gap-8 opacity-80">
+              <div>
+                <h3 className="text-white mb-3">Languages & Core</h3>
+                <p className="leading-relaxed">
+                  TypeScript, JavaScript (ES6+), Python, C++, HTML5, CSS3/Sass <br/>
+                  <span className="opacity-70 text-sm mt-1 block">Data Structures, Algorithms, Modular Architecture</span>
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-white mb-3">Frameworks & Libraries</h3>
+                <p className="leading-relaxed">
+                  React.js, Next.js, Tailwind CSS, Ember, Backbone, jQuery <br/>
+                  <span className="opacity-70 text-sm mt-1 block">Django, Node.js, Express</span>
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-white mb-3">Architecture & UI Systems</h3>
+                <p className="leading-relaxed">
+                  UI/UX Design Systems, Figma, Accessibility (A11y/WCAG), Mobile-First Responsiveness <br/>
+                  <span className="opacity-70 text-sm mt-1 block">Contentful, WordPress</span>
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-white mb-3">Tools & Infrastructure</h3>
+                <p className="leading-relaxed">
+                  Git/GitHub, REST APIs, CI/CD Pipelines, Agile/Scrum <br/>
+                  <span className="opacity-70 text-sm mt-1 block">Cordova, Android Web App Development</span>
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* PROJECTS SECTION */}
           <section id="projects">
-            <h2 className="text-white mb-6">PROJECTS</h2>
+            <h2 className="text-white mb-8 text-xl font-bold">PROJECTS</h2>
             
             <Link
               href="/juicebox"
-              className="block p-5 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all mb-6"
+              className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all mb-6 group"
             >
-              Juicebox — Interactive Audio Workstation
+              <h3 className="text-white mb-2 group-hover:text-[#00FF41] transition-colors">Juicebox</h3>
+              <p className="opacity-70 text-sm">Interactive Audio Workstation</p>
             </Link>
 
             <a
               href="https://github.com/GlitchPopPhantom/Qboid"
               target="_blank"
               rel="noreferrer"
-              className="block mb-6 p-5 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all"
+              className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
             >
-              Qboid — Modular Combat Engine
+              <h3 className="text-white mb-2 group-hover:text-[#00FF41] transition-colors">Qboid</h3>
+              <p className="opacity-70 text-sm">Modular Combat Engine</p>
             </a>
           </section>
         </main>
