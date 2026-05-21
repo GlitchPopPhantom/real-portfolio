@@ -153,7 +153,7 @@ function MainPortfolio() {
             {showPortfolio && (
               <>
                 <p className="mt-8 text-lg font-bold text-white">
-                  Software Engineer
+                  FullStack Engineer
                 </p>
 
                 <p className="mt-4 max-w-xs opacity-70">
@@ -185,14 +185,14 @@ function MainPortfolio() {
                   </ul>
                 </nav>
 
-                <div className="mt-24 text-sm opacity-60">
+                <div className="mt-12 text-sm opacity-60 space-y-1">
+                  <p>+234 906 470 7767</p>
                   <p>tunjiadenipekun@gmail.com</p>
-                  <p className="mt-2">+234 906 470 7767</p>
                   <a 
                     href="https://tunji-adenipekun.vercel.app" 
                     target="_blank" 
                     rel="noreferrer"
-                    className="mt-2 block hover:text-white transition-colors"
+                    className="block hover:text-white transition-colors pt-1"
                   >
                     tunji-adenipekun.vercel.app
                   </a>
