@@ -96,7 +96,7 @@ function MainPortfolio() {
         <header
           className={`h-screen sticky top-0 flex flex-col transition-all duration-[1800ms] ${
             showPortfolio
-              ? "lg:w-[40%] justify-start pt-24"
+              ? "lg:w-[40%] justify-start pt-18"
               : "w-full items-center justify-center"
           }`}
         >
