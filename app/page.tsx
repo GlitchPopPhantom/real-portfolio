@@ -79,7 +79,7 @@ function MainPortfolio() {
   if (loading) {
     return (
       <div className="h-screen bg-black flex items-center justify-center text-[#00FF41] font-mono">
-        <div className="relative text-5xl w-[4ch]">
+        <div className="relative text-5xl w-[9ch]">
           {loadingText}
           <span className="absolute left-[8ch]">
             {cursorVisible ? "|" : " "}
