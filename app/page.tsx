@@ -30,7 +30,7 @@ const projectData = [
     description: "Just in case this particular website is not to your liking. Or you're just interested in seeing the same thing being pitched to you in a new way.",
     path: "/v2",
     isExternal: false,
-    imageSrc: "/images/z4", 
+    imageSrc: "/images/z4.png", 
   },
   {
     title: "Kobo Pay",
@@ -38,7 +38,7 @@ const projectData = [
     description: "A secure cross-border ledger and processing router engineering low-latency multi-currency clearing pipelines alongside strict real-time transaction tracking modules.",
     path: "/kobo-pay",
     isExternal: false,
-    imageSrc: "/images/z3",
+    imageSrc: "/images/z3.png",
   },
   {
     title: "Whiplash",
@@ -46,7 +46,7 @@ const projectData = [
     description: "An enterprise workflow distribution motor running event-driven worker chains to streamline background data sanitization, API syncing, and recursive script tasks.",
     path: "/whiplash",
     isExternal: false,
-    imageSrc: "/images/z2",
+    imageSrc: "/images/z2.png",
   },
   {
     title: "Ray Blazer",
@@ -54,7 +54,7 @@ const projectData = [
     description: "An interactive architectural showcase leveraging advanced WebGL elements, high-density matrix transformations, and fine-tuned responsive math configurations.",
     path: "/ray-blazer",
     isExternal: false,
-    imageSrc: "/images/z1",
+    imageSrc: "/images/z1.png",
   },
   {
     title: "Juicebox",
@@ -62,7 +62,7 @@ const projectData = [
     description: "An in-browser digital audio workstation enabling modular sound synthesis, real-time audio manipulation, and visual node-mapping built entirely with the Web Audio API.",
     path: "/juicebox",
     isExternal: false,
-    imageSrc: "/images/z6",
+    imageSrc: "/images/z6.png",
   },
   {
     title: "Qboid ↗",
@@ -70,7 +70,7 @@ const projectData = [
     description: "An isolated vector collision environment written in raw canvas code to map directional force arrays, complex hitboxes, and systemic combat behavior trees.",
     path: "https://github.com/GlitchPopPhantom/Qboid",
     isExternal: true,
-    imageSrc: "/images/z7",
+    imageSrc: "/images/z7.png",
   },
 ];
 
