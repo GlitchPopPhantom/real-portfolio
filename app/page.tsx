@@ -223,7 +223,7 @@ function MainPortfolio() {
             {showPortfolio && (
               <>
                 <p className="mt-8 text-lg font-bold text-white">
-                  Software Engineer
+                  Frontend Engineer
                 </p>
 
                 <p className="mt-4 max-w-xs opacity-70 text-sm leading-relaxed">
@@ -275,7 +275,7 @@ function MainPortfolio() {
           <section id="about" className="mb-28">
             <h2 className="text-white mb-8 text-xl font-bold">ABOUT</h2>
             <p className="opacity-80 leading-relaxed">
-              Performance-driven Backend Engineer specializing in architecting scalable, high-concurrency web applications. With a foundation in React and deep expertise in bridging the gap between sophisticated UI/UX and robust Django-based backends, I focus on building optimized, accessible, and maintainable digital products. I specialize in turning complex architectural requirements into fluid, low-latency user experiences through advanced state management, modular component design, and rigorous performance engineering.
+              Performance-driven Frontend Engineer specializing in architecting scalable, high-concurrency web applications. With a foundation in React and deep expertise in bridging the gap between sophisticated UI/UX and robust Django-based backends, I focus on building optimized, accessible, and maintainable digital products. I specialize in turning complex architectural requirements into fluid, low-latency user experiences through advanced state management, modular component design, and rigorous performance engineering.
             </p>
           </section>
 
@@ -286,7 +286,7 @@ function MainPortfolio() {
             <div className="mb-12">
               <h3 className="text-white text-lg mb-1">Frontend Engineering Intern</h3>
               <div className="text-sm opacity-60 mb-4 tracking-wide">
-                Nigerian Breweries PLC | Mar 2024 – Sept 2024
+                Nigerian Breweries PLC | Mar 2024 – Aug 2025
               </div>
               <ul className="list-disc pl-5 space-y-3 opacity-80 leading-relaxed">
                 <li>Spearheaded the revitalization of internal logistics dashboards, replacing legacy interfaces with high-performance React/TypeScript modules.</li>
@@ -298,7 +298,7 @@ function MainPortfolio() {
             <div>
               <h3 className="text-white text-lg mb-1">Software Engineering Intern</h3>
               <div className="text-sm opacity-60 mb-4 tracking-wide">
-                Lagos State Ministry of Science and Technology | July 2023 – Sept 2023
+                Lagos State Ministry of Science and Technology | July 2023 – Jan 2024
               </div>
               <ul className="list-disc pl-5 space-y-3 opacity-80 leading-relaxed">
                 <li>Engineered accessible, citizen-facing web portals using modern JavaScript frameworks, ensuring compliance with international web accessibility (WCAG) standards.</li>
