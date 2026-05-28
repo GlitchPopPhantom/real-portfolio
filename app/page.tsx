@@ -3,6 +3,64 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState, Suspense } from "react";
+import { motion, Variants } from "framer-motion";
+
+// Framer Motion layout variants explicitly typed to fix Next.js build errors
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
+};
+
+const itemVariants: Variants = {
+  hidden: { y: 15, opacity: 0 },
+  visible: { 
+    y: 0, 
+    opacity: 1, 
+    transition: { 
+      duration: 0.6, 
+      ease: "easeOut" 
+    } 
+  },
+};
+
+// Centralized project definitions with production links and comprehensive engineering descriptions
+const projectData = [
+  {
+    title: "Juicebox",
+    subtitle: "Interactive Audio Workstation // Production Build",
+    description: "An in-browser digital audio workstation enabling modular sound synthesis, real-time audio manipulation, and visual node-mapping built entirely with the Web Audio API.",
+    path: "/juicebox",
+    isExternal: false,
+  },
+  {
+    title: "Kobo Pay",
+    subtitle: "Global Financial Orchestration & Payments Layer",
+    description: "A secure cross-border ledger and processing router engineering low-latency multi-currency clearing pipelines alongside strict real-time transaction tracking modules.",
+    path: "/kobo-pay",
+    isExternal: false,
+  },
+  {
+    title: "Whiplash",
+    subtitle: "High-Velocity Workflow Automation SaaS Platform",
+    description: "An enterprise workflow distribution motor running event-driven worker chains to streamline background data sanitization, API syncing, and recursive script tasks.",
+    path: "/whiplash",
+    isExternal: false,
+  },
+  {
+    title: "Ray Blazer",
+    subtitle: "High-Fidelity Engineering Concept Design",
+    description: "An interactive architectural showcase leveraging advanced WebGL elements, high-density matrix transformations, and fine-tuned responsive math configurations.",
+    path: "/ray-blazer",
+    isExternal: false,
+  },
+  {
+    title: "Qboid ↗",
+    subtitle: "Modular Combat Engine // External Repository",
+    description: "An isolated vector collision environment written in raw canvas code to map directional force arrays, complex hitboxes, and systemic combat behavior trees.",
+    path: "https://github.com/GlitchPopPhantom/Qboid",
+    isExternal: true,
+  },
+];
 
 function MainPortfolio() {
   const searchParams = useSearchParams();
@@ -156,7 +214,7 @@ function MainPortfolio() {
                   Software Engineer
                 </p>
 
-                <p className="mt-4 max-w-xs opacity-70">
+                <p className="mt-4 max-w-xs opacity-70 text-sm leading-relaxed">
                   Performance-driven engineer specializing in scalable architecture, React, and Django backends.
                 </p>
 
@@ -281,47 +339,50 @@ function MainPortfolio() {
           <section id="projects" className="space-y-6">
             <h2 className="text-white mb-8 text-xl font-bold">PROJECTS</h2>
             
-            <Link
-              href="/juicebox"
-              className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="space-y-6"
             >
-              <h3 className="text-white mb-2 group-hover:text-[#00FF41] transition-colors">Juicebox</h3>
-              <p className="opacity-70 text-sm">Interactive Audio Workstation // Production Build</p>
-            </Link>
-
-            <Link
-              href="/kobo-pay"
-              className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
-            >
-              <h3 className="text-white mb-2 group-hover:text-[#00FF41] transition-colors">Kobo Pay</h3>
-              <p className="opacity-70 text-sm">Global Financial Orchestration & Payments Layer</p>
-            </Link>
-
-            <Link
-              href="/whiplash"
-              className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
-            >
-              <h3 className="text-white mb-2 group-hover:text-[#00FF41] transition-colors">Whiplash</h3>
-              <p className="opacity-70 text-sm">High-Velocity Workflow Automation SaaS Platform</p>
-            </Link>
-
-            <Link
-              href="/ray-blazer"
-              className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
-            >
-              <h3 className="text-white mb-2 group-hover:text-[#00FF41] transition-colors">Ray Blazer</h3>
-              <p className="opacity-70 text-sm">High-Fidelity Engineering Concept Design</p>
-            </Link>
-
-            <a
-              href="https://github.com/GlitchPopPhantom/Qboid"
-              target="_blank"
-              rel="noreferrer"
-              className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
-            >
-              <h3 className="text-white mb-2 group-hover:text-[#00FF41] transition-colors">Qboid ↗</h3>
-              <p className="opacity-70 text-sm">Modular Combat Engine // External Repository</p>
-            </a>
+              {projectData.map((project, index) => (
+                <motion.div key={index} variants={itemVariants}>
+                  {project.isExternal ? (
+                    <a
+                      href={project.path}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
+                    >
+                      <h3 className="text-white mb-1 group-hover:text-[#00FF41] transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="text-white/60 text-xs mb-3 font-semibold tracking-wide uppercase">
+                        {project.subtitle}
+                      </p>
+                      <p className="opacity-70 text-sm font-sans tracking-normal leading-relaxed">
+                        {project.description}
+                      </p>
+                    </a>
+                  ) : (
+                    <Link
+                      href={project.path}
+                      className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
+                    >
+                      <h3 className="text-white mb-1 group-hover:text-[#00FF41] transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="text-white/60 text-xs mb-3 font-semibold tracking-wide uppercase">
+                        {project.subtitle}
+                      </p>
+                      <p className="opacity-70 text-sm font-sans tracking-normal leading-relaxed">
+                        {project.description}
+                      </p>
+                    </Link>
+                  )}
+                </motion.div>
+              ))}
+            </motion.div>
           </section>
         </main>
       </div>
