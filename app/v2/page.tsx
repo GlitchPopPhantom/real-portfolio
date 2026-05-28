@@ -91,7 +91,7 @@ const Portfolio: React.FC = () => {
         <motion.footer variants={itemVariants} className="mt-32 border-t border-slate-800 pt-12 flex justify-between">
           <div className="font-mono text-slate-500">Contact Me</div>
           <div className="text-right">
-            <a href="tunjiadenipekun@gmail.com" className="text-4xl font-bold hover:text-cyan-400 transition-colors">hello@dev.com</a>
+            <a href="mailto:tunjiadenipekun@gmail.com" className="text-4xl font-bold hover:text-cyan-400 transition-colors">tunjiadenipekun@gmail.com</a>
           </div>
         </motion.footer>
       </motion.div>
