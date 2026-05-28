@@ -5,10 +5,9 @@ import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState, Suspense } from "react";
 import { motion, Variants } from "framer-motion";
 
-// Framer Motion layout variants explicitly typed to fix Next.js build errors
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
 };
 
 const itemVariants: Variants = {
@@ -17,55 +16,61 @@ const itemVariants: Variants = {
     y: 0, 
     opacity: 1, 
     transition: { 
-      duration: 0.6, 
+      duration: 0.5, 
       ease: "easeOut" 
     } 
   },
 };
 
-// Centralized project definitions with production links and comprehensive engineering descriptions
+// Add your preferred image path or remote URL to the imageSrc strings below
 const projectData = [
   {
     title: "Alternate Portfolio",
-    subtitle: "Dynamic Portfolio website built using Typescript, React, Next.js and Framer",
+    subtitle: "TypeScript, React, Next.js, Framer",
     description: "Just in case this particular website is not to your liking. Or you're just interested in seeing the same thing being pitched to you in a new way.",
     path: "/v2",
     isExternal: false,
+    imageSrc: "/images/z4", 
   },
   {
     title: "Kobo Pay",
-    subtitle: "Global Financial Orchestration & Payments Layer",
+    subtitle: "Global Financial Orchestration",
     description: "A secure cross-border ledger and processing router engineering low-latency multi-currency clearing pipelines alongside strict real-time transaction tracking modules.",
     path: "/kobo-pay",
     isExternal: false,
+    imageSrc: "/images/z3",
   },
   {
     title: "Whiplash",
-    subtitle: "High-Velocity Workflow Automation SaaS Platform",
+    subtitle: "Workflow Automation SaaS Platform",
     description: "An enterprise workflow distribution motor running event-driven worker chains to streamline background data sanitization, API syncing, and recursive script tasks.",
     path: "/whiplash",
     isExternal: false,
+    imageSrc: "/images/z2",
   },
   {
     title: "Ray Blazer",
-    subtitle: "High-Fidelity Engineering Concept Design",
+    subtitle: "High-Fidelity Engineering Concept",
     description: "An interactive architectural showcase leveraging advanced WebGL elements, high-density matrix transformations, and fine-tuned responsive math configurations.",
     path: "/ray-blazer",
     isExternal: false,
+    imageSrc: "/images/z1",
   },
   {
     title: "Juicebox",
-    subtitle: "Interactive Audio Workstation // Production Build",
+    subtitle: "Interactive Audio Workstation",
     description: "An in-browser digital audio workstation enabling modular sound synthesis, real-time audio manipulation, and visual node-mapping built entirely with the Web Audio API.",
     path: "/juicebox",
     isExternal: false,
+    imageSrc: "/images/z6",
   },
   {
     title: "Qboid ↗",
-    subtitle: "Modular Combat Engine // External Repository",
+    subtitle: "Modular Combat Engine",
     description: "An isolated vector collision environment written in raw canvas code to map directional force arrays, complex hitboxes, and systemic combat behavior trees.",
     path: "https://github.com/GlitchPopPhantom/Qboid",
     isExternal: true,
+    imageSrc: "/images/z7",
   },
 ];
 
@@ -342,7 +347,7 @@ function MainPortfolio() {
             </div>
           </section>
 
-          {/* PROJECTS SECTION */}
+          {/* PROJECTS SECTION (2x3 GRID) */}
           <section id="projects" className="space-y-6">
             <h2 className="text-white mb-8 text-xl font-bold">PROJECTS</h2>
             
@@ -350,41 +355,65 @@ function MainPortfolio() {
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="space-y-6"
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
             >
               {projectData.map((project, index) => (
-                <motion.div key={index} variants={itemVariants}>
+                <motion.div key={index} variants={itemVariants} className="h-full">
                   {project.isExternal ? (
                     <a
                       href={project.path}
                       target="_blank"
                       rel="noreferrer"
-                      className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
+                      className="flex flex-col h-full border border-[#00FF41]/20 hover:border-[#00FF41]/50 bg-black hover:bg-[#00FF41]/5 transition-all group overflow-hidden"
                     >
-                      <h3 className="text-white mb-1 group-hover:text-[#00FF41] transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-white/60 text-xs mb-3 font-semibold tracking-wide uppercase">
-                        {project.subtitle}
-                      </p>
-                      <p className="opacity-70 text-sm font-sans tracking-normal leading-relaxed">
-                        {project.description}
-                      </p>
+                      {/* Image Container */}
+                      <div className="w-full h-40 bg-[#00FF41]/10 relative overflow-hidden border-b border-[#00FF41]/10">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img 
+                          src={project.imageSrc} 
+                          alt={project.title}
+                          className="w-full h-full object-cover opacity-40 group-hover:opacity-70 group-hover:scale-105 transition-all duration-500 filter grayscale sepia hue-rotate-[90deg] saturate-[200%]"
+                        />
+                      </div>
+                      {/* Text Content */}
+                      <div className="p-5 flex flex-col flex-grow">
+                        <h3 className="text-white text-lg mb-0.5 group-hover:text-[#00FF41] transition-colors">
+                          {project.title}
+                        </h3>
+                        <p className="text-[#00FF41]/60 text-[11px] mb-3 font-semibold tracking-wide uppercase">
+                          {project.subtitle}
+                        </p>
+                        <p className="opacity-70 text-xs font-sans tracking-normal leading-relaxed flex-grow">
+                          {project.description}
+                        </p>
+                      </div>
                     </a>
                   ) : (
                     <Link
                       href={project.path}
-                      className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
+                      className="flex flex-col h-full border border-[#00FF41]/20 hover:border-[#00FF41]/50 bg-black hover:bg-[#00FF41]/5 transition-all group overflow-hidden"
                     >
-                      <h3 className="text-white mb-1 group-hover:text-[#00FF41] transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-white/60 text-xs mb-3 font-semibold tracking-wide uppercase">
-                        {project.subtitle}
-                      </p>
-                      <p className="opacity-70 text-sm font-sans tracking-normal leading-relaxed">
-                        {project.description}
-                      </p>
+                      {/* Image Container */}
+                      <div className="w-full h-40 bg-[#00FF41]/10 relative overflow-hidden border-b border-[#00FF41]/10">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img 
+                          src={project.imageSrc} 
+                          alt={project.title}
+                          className="w-full h-full object-cover opacity-40 group-hover:opacity-70 group-hover:scale-105 transition-all duration-500 filter grayscale sepia hue-rotate-[90deg] saturate-[200%]"
+                        />
+                      </div>
+                      {/* Text Content */}
+                      <div className="p-5 flex flex-col flex-grow">
+                        <h3 className="text-white text-lg mb-0.5 group-hover:text-[#00FF41] transition-colors">
+                          {project.title}
+                        </h3>
+                        <p className="text-[#00FF41]/60 text-[11px] mb-3 font-semibold tracking-wide uppercase">
+                          {project.subtitle}
+                        </p>
+                        <p className="opacity-70 text-xs font-sans tracking-normal leading-relaxed flex-grow">
+                          {project.description}
+                        </p>
+                      </div>
                     </Link>
                   )}
                 </motion.div>
