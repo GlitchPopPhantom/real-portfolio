@@ -278,15 +278,39 @@ function MainPortfolio() {
           </section>
 
           {/* PROJECTS SECTION */}
-          <section id="projects">
+          <section id="projects" className="space-y-6">
             <h2 className="text-white mb-8 text-xl font-bold">PROJECTS</h2>
             
             <Link
               href="/juicebox"
-              className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all mb-6 group"
+              className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
             >
               <h3 className="text-white mb-2 group-hover:text-[#00FF41] transition-colors">Juicebox</h3>
-              <p className="opacity-70 text-sm">Interactive Audio Workstation</p>
+              <p className="opacity-70 text-sm">Interactive Audio Workstation // Production Build</p>
+            </Link>
+
+            <Link
+              href="/kobo-pay"
+              className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
+            >
+              <h3 className="text-white mb-2 group-hover:text-[#00FF41] transition-colors">Kobo Pay</h3>
+              <p className="opacity-70 text-sm">Global Financial Orchestration & Payments Layer</p>
+            </Link>
+
+            <Link
+              href="/whiplash"
+              className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
+            >
+              <h3 className="text-white mb-2 group-hover:text-[#00FF41] transition-colors">Whiplash</h3>
+              <p className="opacity-70 text-sm">High-Velocity Workflow Automation SaaS Platform</p>
+            </Link>
+
+            <Link
+              href="/ray-blazer"
+              className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
+            >
+              <h3 className="text-white mb-2 group-hover:text-[#00FF41] transition-colors">Ray Blazer</h3>
+              <p className="opacity-70 text-sm">High-Fidelity Engineering Concept Design</p>
             </Link>
 
             <a
@@ -295,8 +319,8 @@ function MainPortfolio() {
               rel="noreferrer"
               className="block p-6 border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition-all group"
             >
-              <h3 className="text-white mb-2 group-hover:text-[#00FF41] transition-colors">Qboid</h3>
-              <p className="opacity-70 text-sm">Modular Combat Engine</p>
+              <h3 className="text-white mb-2 group-hover:text-[#00FF41] transition-colors">Qboid ↗</h3>
+              <p className="opacity-70 text-sm">Modular Combat Engine // External Repository</p>
             </a>
           </section>
         </main>
