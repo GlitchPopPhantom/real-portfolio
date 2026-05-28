@@ -7,10 +7,10 @@ import Link from 'next/link';
 // 1. Added imageSrc to the array. 
 // Make sure these match the exact filenames (with .png/.jpg) inside your public/images folder!
 const projects = [
-  { id: "01", title: "Ray Blazer", path: "/Ray-Blazer", imageSrc: "/images/z1.png" },
-  { id: "02", title: "Kobo Pay", path: "/kobo-pay", imageSrc: "/images/z3.png" },
-  { id: "03", title: "Whiplash", path: "/whiplash", imageSrc: "/images/z2.png" },
-  { id: "04", title: "Coming Soon", path: "/", imageSrc: "/images/z4.png" },
+  { id: "_", title: "Ray Blazer", path: "/Ray-Blazer", imageSrc: "/images/z1.png" },
+  { id: "_", title: "Kobo Pay", path: "/kobo-pay", imageSrc: "/images/z3.png" },
+  { id: "_", title: "Whiplash", path: "/whiplash", imageSrc: "/images/z2.png" },
+  { id: "_", title: "Terminal Based Portfolio", path: "/", imageSrc: "/images/z7.png" },
 ];
 
 const containerVariants = {
