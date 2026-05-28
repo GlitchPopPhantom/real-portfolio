@@ -26,10 +26,10 @@ const itemVariants: Variants = {
 // Centralized project definitions with production links and comprehensive engineering descriptions
 const projectData = [
   {
-    title: "Juicebox",
-    subtitle: "Interactive Audio Workstation // Production Build",
-    description: "An in-browser digital audio workstation enabling modular sound synthesis, real-time audio manipulation, and visual node-mapping built entirely with the Web Audio API.",
-    path: "/juicebox",
+    title: "Alternate Portfolio",
+    subtitle: "Dynamic Portfolio website built using Typescript, React, Next.js and Framer",
+    description: "Just in case this particular website is not to your liking. Or you're just interested in seeing the same thing being pitched to you in a new way.",
+    path: "/v2",
     isExternal: false,
   },
   {
@@ -51,6 +51,13 @@ const projectData = [
     subtitle: "High-Fidelity Engineering Concept Design",
     description: "An interactive architectural showcase leveraging advanced WebGL elements, high-density matrix transformations, and fine-tuned responsive math configurations.",
     path: "/ray-blazer",
+    isExternal: false,
+  },
+  {
+    title: "Juicebox",
+    subtitle: "Interactive Audio Workstation // Production Build",
+    description: "An in-browser digital audio workstation enabling modular sound synthesis, real-time audio manipulation, and visual node-mapping built entirely with the Web Audio API.",
+    path: "/juicebox",
     isExternal: false,
   },
   {
