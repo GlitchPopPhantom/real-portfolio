@@ -4,11 +4,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
+// 1. Added imageSrc to the array. 
+// Make sure these match the exact filenames (with .png/.jpg) inside your public/images folder!
 const projects = [
-  { id: "01", title: "Ray Blazer", path: "/Ray-Blazer" },
-  { id: "02", title: "Kobo Pay", path: "/kobo-pay" },
-  { id: "03", title: "Whiplash", path: "/whiplash" },
-  { id: "04", title: "Coming Soon", path: "/" },
+  { id: "01", title: "Ray Blazer", path: "/Ray-Blazer", imageSrc: "/images/z1.png" },
+  { id: "02", title: "Kobo Pay", path: "/kobo-pay", imageSrc: "/images/z3.png" },
+  { id: "03", title: "Whiplash", path: "/whiplash", imageSrc: "/images/z2.png" },
+  { id: "04", title: "Coming Soon", path: "/", imageSrc: "/images/z4.png" },
 ];
 
 const containerVariants = {
@@ -23,7 +25,7 @@ const itemVariants = {
     opacity: 1, 
     transition: { 
       duration: 0.8, 
-      ease: "easeOut" as const // <-- Adding "as const" fixes the TypeScript type widening error
+      ease: "easeOut" as const 
     } 
   },
 };
@@ -57,11 +59,29 @@ const Portfolio: React.FC = () => {
               <motion.div 
                 variants={itemVariants}
                 whileHover={{ scale: 0.98, transition: { duration: 0.2 } }}
-                className="aspect-square bg-slate-900 rounded-3xl p-8 flex flex-col justify-end border border-slate-800 hover:border-cyan-500 transition-colors group cursor-pointer"
+                // Added relative, overflow-hidden, and removed the solid bg-slate-900
+                className="relative aspect-square rounded-3xl p-8 flex flex-col justify-end border border-slate-800 hover:border-cyan-500 transition-all group cursor-pointer overflow-hidden"
               >
-                <div className="text-cyan-400 font-mono mb-2 text-sm">{project.id} // PROJECT</div>
-                <h3 className="text-4xl font-bold">{project.title}</h3>
-                <div className="w-12 h-1 bg-white mt-4 group-hover:w-24 transition-all" />
+                
+                {/* 2. Image & Overlay Container */}
+                <div className="absolute inset-0 z-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img 
+                    src={project.imageSrc} 
+                    alt={project.title} 
+                    className="w-full h-full object-cover opacity-40 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700 ease-out"
+                  />
+                  {/* Gradient overlay so the text pops */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                </div>
+
+                {/* Content Container (Needs relative z-10 to sit above the image) */}
+                <div className="relative z-10">
+                  <div className="text-cyan-400 font-mono mb-2 text-sm">{project.id} // PROJECT</div>
+                  <h3 className="text-4xl font-bold drop-shadow-md">{project.title}</h3>
+                  <div className="w-12 h-1 bg-white mt-4 group-hover:w-24 group-hover:bg-cyan-400 transition-all duration-300" />
+                </div>
+
               </motion.div>
             </Link>
           ))}
