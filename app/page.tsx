@@ -62,7 +62,7 @@ const projectData = [
     description: "An in-browser digital audio workstation enabling modular sound synthesis, real-time audio manipulation, and visual node-mapping built entirely with the Web Audio API.",
     path: "/juicebox",
     isExternal: false,
-    imageSrc: "/images/z6.png",
+    imageSrc: "/images/z5.png",
   },
   {
     title: "Qboid ↗",
@@ -70,7 +70,7 @@ const projectData = [
     description: "An isolated vector collision environment written in raw canvas code to map directional force arrays, complex hitboxes, and systemic combat behavior trees.",
     path: "https://github.com/GlitchPopPhantom/Qboid",
     isExternal: true,
-    imageSrc: "/images/z7.png",
+    imageSrc: "/images/z6.png",
   },
 ];
 
